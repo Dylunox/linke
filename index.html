@@ -33,12 +33,12 @@
         /* زر التبديل بين الثيمات */
         .theme-toggle {
             position: fixed;
-            top: 20px;
+            bottom: 20px;
             right: 20px;
             background: #2980b9;
             color: white;
             padding: 12px 16px;
-            border-radius: 30px;
+            border-radius: 50%;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
@@ -47,19 +47,21 @@
             z-index: 1000;
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
             border: none;
             outline: none;
         }
 
         .theme-toggle:hover {
             background: #1c598a;
-            transform: scale(1.05);
+            transform: scale(1.1);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
         }
 
         .theme-toggle i {
-            font-size: 18px;
+            font-size: 20px;
         }
 
         /* تنسيق قسم الإعلانات */
@@ -91,7 +93,7 @@
             height: auto;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            cursor: pointer; /* تغيير المؤشر إلى يد عند التمرير فوق الصورة */
+            cursor: pointer;
             transition: transform 0.3s ease;
         }
 
@@ -100,7 +102,7 @@
         }
 
         .ad-banner p {
-            font-size: 14px; /* تصغير حجم النص */
+            font-size: 14px;
             color: #555;
             margin: 15px 0;
             transition: color 0.5s ease;
@@ -137,7 +139,7 @@
         }
 
         img {
-            width: 200px; /* زيادة حجم الصورة */
+            width: 200px;
             height: 200px;
             border-radius: 15px;
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
@@ -320,7 +322,7 @@
 <body>
     <!-- زر التبديل بين الثيمات -->
     <button class="theme-toggle" onclick="toggleTheme()">
-        <i class="fas fa-moon"></i> وضع الليل
+        <i class="fas fa-moon"></i>
     </button>
 
     <!-- قسم الإعلانات -->
@@ -331,20 +333,20 @@
 
     <!-- المحتوى الرئيسي -->
     <div class="container">
-        <img src="https://i.postimg.cc/8zbCF4zy/Black-And-White-Aesthetic-Minimalist-Modern-Simple-Typography-Coconut-Cosmetics-Logo.png" alt="المحراب">
+        <img id="theme-image" src="https://i.postimg.cc/GhG5z454/IMG-3129.png" alt="المحراب">
         <h1>المحراب</h1>
         <p>"من يزرع الخير في الأرض، يحصد في السماء أضعافًا مضاعفة، فإن الله لا يضيع أجر المحسنين."</p>
         <div class="social-links">
             <a href="https://whatsapp.com/channel/0029VafTNNQ7DAWu5NQP0O3I" target="_blank"><i class="fa-brands fa-whatsapp"></i> واتساب</a>
-            <a href="https://youtube.com/@spiritualbreezes?si=qmIk6z4PkBuDov82" target="_blank"><i class="fa-brands fa-youtube"></i> يوتيوب</a>
-            <a href="https://www.instagram.com/bree_zes1?igsh=MXJlZHgxdGM5dXAybQ==" target="_blank"><i class="fa-brands fa-instagram"></i> انستجرام</a>
+            <a href="https://youtube.com/@almihrab.om1?si=iUtB5q2kHfFIrg7G" target="_blank"><i class="fa-brands fa-youtube"></i> يوتيوب</a>
+            <a href="https://www.instagram.com/almihrab.om?igsh=MXJlZHgxdGM5dXAybQ==" target="_blank"><i class="fa-brands fa-instagram"></i> انستجرام</a>
             <a href="https://x.com/Oman_male?t=SkFwesWGWVPcXJIBYFDpIA&s=09" target="_blank"><i class="fa-brands fa-twitter"></i> تويتر</a>
         </div>
     </div>
 
     <!-- الفوتر (Footer) -->
     <footer>
-        <p>جميع الحقوق محفوظة &copy; 2025 <a href="#">نسائم إيمانية</a></p>
+        <p>جميع الحقوق محفوظة &copy; 2025 <a href="#">المحراب</a></p>
     </footer>
 
     <!-- تأثير تكبير زر الإنستجرام -->
@@ -360,15 +362,43 @@
         function toggleTheme() {
             const body = document.body;
             const themeToggle = document.querySelector('.theme-toggle');
+            const themeImage = document.getElementById('theme-image');
+
             body.classList.toggle('dark-mode');
 
             // تغيير النص والأيقونة
             if (body.classList.contains('dark-mode')) {
-                themeToggle.innerHTML = '<i class="fas fa-sun"></i> وضع النهار';
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                themeImage.src = "https://i.postimg.cc/W1pwrtLL/IMG-3132.png"; // صورة المساء
             } else {
-                themeToggle.innerHTML = '<i class="fas fa-moon"></i> وضع الليل';
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                themeImage.src = "https://i.postimg.cc/GhG5z454/IMG-3129.png"; // صورة الصباح
+            }
+
+            // حفظ الوضع في localStorage
+            localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+        }
+
+        // دالة لتحميل الوضع المحفوظ
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const body = document.body;
+            const themeToggle = document.querySelector('.theme-toggle');
+            const themeImage = document.getElementById('theme-image');
+
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-mode');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                themeImage.src = "https://i.postimg.cc/W1pwrtLL/IMG-3132.png"; // صورة المساء
+            } else {
+                body.classList.remove('dark-mode');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                themeImage.src = "https://i.postimg.cc/GhG5z454/IMG-3129.png"; // صورة الصباح
             }
         }
+
+        // تحميل الوضع عند فتح الصفحة
+        window.onload = loadTheme;
 
         // دالة لعرض تأثير تكبير زر الإنستجرام
         function showInstagramPopup() {
