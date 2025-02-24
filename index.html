@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
+        /* تنسيق عام للصفحة */
         body {
             background: linear-gradient(135deg, #f3f4f6, #e0e0e0);
             color: #333;
@@ -19,8 +20,97 @@
             font-family: 'Tajawal', sans-serif;
             margin: 0;
             padding: 20px;
+            scroll-behavior: smooth;
+            transition: background 0.5s ease, color 0.5s ease;
         }
 
+        /* الوضع الداكن */
+        body.dark-mode {
+            background: linear-gradient(135deg, #1e1e1e, #121212);
+            color: #f0f0f0;
+        }
+
+        /* زر التبديل بين الثيمات */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #2980b9;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            outline: none;
+        }
+
+        .theme-toggle:hover {
+            background: #1c598a;
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .theme-toggle i {
+            font-size: 18px;
+        }
+
+        /* تنسيق قسم الإعلانات */
+        .ad-banner {
+            width: 100%;
+            max-width: 900px;
+            background: #ffffff;
+            padding: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            text-align: center;
+            border-radius: 15px;
+            border: 1px solid #e0e0e0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.5s ease;
+        }
+
+        body.dark-mode .ad-banner {
+            background: #2c3e50;
+            color: #f0f0f0;
+        }
+
+        .ad-banner:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .ad-banner img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer; /* تغيير المؤشر إلى يد عند التمرير فوق الصورة */
+            transition: transform 0.3s ease;
+        }
+
+        .ad-banner img:hover {
+            transform: scale(1.05);
+        }
+
+        .ad-banner p {
+            font-size: 14px; /* تصغير حجم النص */
+            color: #555;
+            margin: 15px 0;
+            transition: color 0.5s ease;
+        }
+
+        body.dark-mode .ad-banner p {
+            color: #f0f0f0;
+        }
+
+        /* تنسيق باقي الصفحة */
         .container {
             max-width: 900px;
             background: white;
@@ -28,6 +118,17 @@
             border-radius: 20px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
             animation: fadeIn 1.5s ease-in-out;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.5s ease;
+        }
+
+        body.dark-mode .container {
+            background: #2c3e50;
+            color: #f0f0f0;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
         }
 
         @keyframes fadeIn {
@@ -36,11 +137,16 @@
         }
 
         img {
-            width: 140px;
-            height: 140px;
+            width: 200px; /* زيادة حجم الصورة */
+            height: 200px;
             border-radius: 15px;
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
             margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        img:hover {
+            transform: scale(1.05);
         }
 
         h1 {
@@ -48,6 +154,18 @@
             font-weight: bold;
             color: #2c3e50;
             margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: glow 2s infinite alternate;
+            transition: color 0.5s ease;
+        }
+
+        body.dark-mode h1 {
+            color: #f0f0f0;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(44, 62, 80, 0.7); }
+            to { text-shadow: 0 0 20px rgba(44, 62, 80, 1); }
         }
 
         p {
@@ -55,6 +173,11 @@
             color: #555;
             line-height: 1.8;
             margin-bottom: 25px;
+            transition: color 0.5s ease;
+        }
+
+        body.dark-mode p {
+            color: #f0f0f0;
         }
 
         .social-links {
@@ -66,7 +189,7 @@
         }
 
         .social-links a {
-            background: #2980b9;
+            background: linear-gradient(135deg, #2980b9, #1c598a);
             padding: 12px 20px;
             border-radius: 10px;
             color: white;
@@ -77,30 +200,43 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
         .social-links a:hover {
-            background: #1c598a;
+            background: linear-gradient(135deg, #1c598a, #2980b9);
             transform: scale(1.08);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
         }
 
-        .whatsapp-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #25D366;
+        /* الفوتر (Footer) */
+        footer {
+            width: 100%;
+            background: #2c3e50;
             color: white;
-            padding: 18px;
-            border-radius: 50%;
-            font-size: 26px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
+            padding: 20px;
+            text-align: center;
+            margin-top: 30px;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
         }
 
-        .whatsapp-btn:hover {
-            transform: scale(1.2);
+        footer p {
+            margin: 0;
+            font-size: 14px;
+            color: #f0f0f0;
         }
 
+        footer a {
+            color: #25D366;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #1c598a;
+        }
+
+        /* تحسينات للأجهزة المحمولة */
         @media (max-width: 768px) {
             h1 {
                 font-size: 28px;
@@ -109,13 +245,91 @@
                 font-size: 16px;
             }
             img {
-                width: 120px;
-                height: 120px;
+                width: 150px;
+                height: 150px;
             }
+            .ad-banner {
+                padding: 15px;
+            }
+            .container {
+                padding: 20px;
+            }
+            .social-links a {
+                padding: 10px 15px;
+                font-size: 16px;
+            }
+            .theme-toggle {
+                padding: 10px 14px;
+                font-size: 14px;
+            }
+        }
+
+        /* تأثير تكبير زر الإنستجرام */
+        .instagram-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+            transition: transform 0.5s ease;
+            text-align: center;
+        }
+
+        .instagram-popup.active {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .instagram-popup a {
+            background: linear-gradient(135deg, #E1306C, #C13584);
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .instagram-popup a:hover {
+            background: linear-gradient(135deg, #C13584, #E1306C);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
         }
     </style>
 </head>
 <body>
+    <!-- زر التبديل بين الثيمات -->
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i> وضع الليل
+    </button>
+
+    <!-- قسم الإعلانات -->
+    <div class="ad-banner">
+        <img src="https://i.postimg.cc/8PnttyXZ/Instagram-post-20250224-162846.png" alt="إعلان" onclick="showInstagramPopup()">
+        <p>شكرا لكم</p>
+    </div>
+
+    <!-- المحتوى الرئيسي -->
     <div class="container">
         <img src="https://i.postimg.cc/8zbCF4zy/Black-And-White-Aesthetic-Minimalist-Modern-Simple-Typography-Coconut-Cosmetics-Logo.png" alt="نسائم إيمانية">
         <h1>نسائم إيمانية</h1>
@@ -127,6 +341,56 @@
             <a href="https://x.com/Oman_male?t=SkFwesWGWVPcXJIBYFDpIA&s=09" target="_blank"><i class="fa-brands fa-twitter"></i> تويتر</a>
         </div>
     </div>
-    
+
+    <!-- الفوتر (Footer) -->
+    <footer>
+        <p>جميع الحقوق محفوظة &copy; 2025 <a href="#">نسائم إيمانية</a></p>
+    </footer>
+
+    <!-- تأثير تكبير زر الإنستجرام -->
+    <div class="overlay" id="overlay"></div>
+    <div class="instagram-popup" id="instagramPopup">
+        <a href="https://www.instagram.com/bree_zes1?igsh=MXJlZHgxdGM5dXAybQ==" target="_blank">
+            <i class="fa-brands fa-instagram"></i> انستجرام
+        </a>
+    </div>
+
+    <script>
+        // دالة التبديل بين الثيمات
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggle = document.querySelector('.theme-toggle');
+            body.classList.toggle('dark-mode');
+
+            // تغيير النص والأيقونة
+            if (body.classList.contains('dark-mode')) {
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i> وضع النهار';
+            } else {
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i> وضع الليل';
+            }
+        }
+
+        // دالة لعرض تأثير تكبير زر الإنستجرام
+        function showInstagramPopup() {
+            const overlay = document.getElementById('overlay');
+            const popup = document.getElementById('instagramPopup');
+
+            // تحريك الصفحة لأسفل
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
+
+            // عرض التأثير
+            overlay.classList.add('active');
+            popup.classList.add('active');
+
+            // إخفاء التأثير بعد 5 ثواني
+            setTimeout(() => {
+                overlay.classList.remove('active');
+                popup.classList.remove('active');
+            }, 5000);
+        }
+    </script>
 </body>
 </html>
