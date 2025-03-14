@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="منصة المحراب - منصة إسلامية تهدف إلى نشر الخير والمعرفة.">
+    <meta name="keywords" content="المحراب, منصة إسلامية, يمان, عبدالله, يوتيوب, واتساب">
+    <meta name="author" content="المحراب">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="theme-color" content="#2980b9">
     <title>المحراب</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700&display=swap" rel="stylesheet">
@@ -30,44 +36,93 @@
             color: #f0f0f0;
         }
 
-        /* زر التبديل بين الثيمات */
-        .theme-toggle {
+        /* شاشة الترحيب */
+        .welcome-overlay {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #2980b9;
-            color: white;
-            padding: 12px 16px;
-            border-radius: 50%;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-            z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
-            width: 50px;
-            height: 50px;
+            align-items: center;
+            z-index: 10000;
+            backdrop-filter: blur(15px);
+            animation: fadeOut 1s ease 3s forwards;
+        }
+
+        .welcome-message {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 1rem;
+            text-align: center;
+            animation: slideIn 1s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .welcome-message h2 {
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+        }
+
+        .welcome-message p {
+            font-size: 1.2rem;
+            color: #f0f0f0;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; visibility: hidden; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* شريط الأخبار */
+        .news-bar {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            font-weight: bold;
+        }
+
+        /* الفيديو */
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 2rem auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 300px;
             border: none;
-            outline: none;
-        }
-
-        .theme-toggle:hover {
-            background: #1c598a;
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        .theme-toggle i {
-            font-size: 20px;
+            border-radius: 20px;
         }
 
         /* تنسيق باقي الصفحة */
         .container {
             max-width: 900px;
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
             padding: 40px;
             border-radius: 20px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
@@ -76,7 +131,7 @@
         }
 
         body.dark-mode .container {
-            background: #2c3e50;
+            background: rgba(44, 62, 80, 0.9);
             color: #f0f0f0;
         }
 
@@ -209,73 +264,41 @@
                 padding: 10px 15px;
                 font-size: 16px;
             }
-            .theme-toggle {
-                padding: 10px 14px;
-                font-size: 14px;
+            .video-container iframe {
+                height: 200px;
             }
-        }
-
-        /* تأثير تكبير زر الإنستجرام */
-        .instagram-popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            z-index: 1001;
-            transition: transform 0.5s ease;
-            text-align: center;
-        }
-
-        .instagram-popup.active {
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .instagram-popup a {
-            background: linear-gradient(135deg, #E1306C, #C13584);
-            padding: 15px 25px;
-            border-radius: 10px;
-            color: white;
-            font-size: 20px;
-            font-weight: bold;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .instagram-popup a:hover {
-            background: linear-gradient(135deg, #C13584, #E1306C);
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            display: none;
-        }
-
-        .overlay.active {
-            display: block;
+            .welcome-message h2 {
+                font-size: 2rem;
+            }
+            .welcome-message p {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- زر التبديل بين الثيمات -->
-    <button class="theme-toggle" onclick="toggleTheme()">
-        <i class="fas fa-moon"></i>
-    </button>
+    <!-- شاشة الترحيب -->
+    <div class="welcome-overlay" id="welcomeOverlay">
+        <div class="welcome-message">
+            <h2>مرحبا بكم في المحراب</h2>
+            <p>نحن هنا لنشر الخير والمعرفة، معًا نصنع الفرق!</p>
+        </div>
+    </div>
+
+    <!-- شريط الأخبار -->
+    <div class="news-bar">
+        <marquee behavior="scroll" direction="right">📢 أخبار جديدة: تم إطلاق قناة اليوتيوب الرسمية! شاهد أحدث الفيديوهات الآن</marquee>
+    </div>
 
     <!-- المحتوى الرئيسي -->
     <div class="container">
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/rIqjxPMMOGs?si=DfAsCpDlesD-wZEn" 
+                    title="فيديو المحراب"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen></iframe>
+        </div>
+        
         <img id="theme-image" src="https://i.postimg.cc/GhG5z454/IMG-3129.png" alt="المحراب">
         <h1>المحراب</h1>
         <p>"من يزرع الخير في الأرض، يحصد في السماء أضعافًا مضاعفة، فإن الله لا يضيع أجر المحسنين."</p>
@@ -292,31 +315,18 @@
         <p>جميع الحقوق محفوظة &copy; 2025 <a href="#">المحراب</a></p>
     </footer>
 
-    <!-- تأثير تكبير زر الإنستجرام -->
-    <div class="overlay" id="overlay"></div>
-    <div class="instagram-popup" id="instagramPopup">
-        <a href="https://www.instagram.com/bree_zes1?igsh=MXJlZHgxdGM5dXAybQ==" target="_blank">
-            <i class="fa-brands fa-instagram"></i> انستجرام
-        </a>
-    </div>
-
     <script>
         // دالة التبديل بين الثيمات
         function toggleTheme() {
             const body = document.body;
-            const themeToggle = document.querySelector('.theme-toggle');
             const themeImage = document.getElementById('theme-image');
 
             body.classList.toggle('dark-mode');
 
-            // تغيير النص والأيقونة
-            if (body.classList.contains('dark-mode')) {
-                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-                themeImage.src = "https://i.postimg.cc/W1pwrtLL/IMG-3132.png"; // صورة المساء
-            } else {
-                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-                themeImage.src = "https://i.postimg.cc/GhG5z454/IMG-3129.png"; // صورة الصباح
-            }
+            // تغيير صورة الشعار
+            themeImage.src = body.classList.contains('dark-mode') ? 
+                "https://i.postimg.cc/W1pwrtLL/IMG-3132.png" : 
+                "https://i.postimg.cc/GhG5z454/IMG-3129.png";
 
             // حفظ الوضع في localStorage
             localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
@@ -326,44 +336,31 @@
         function loadTheme() {
             const savedTheme = localStorage.getItem('theme');
             const body = document.body;
-            const themeToggle = document.querySelector('.theme-toggle');
             const themeImage = document.getElementById('theme-image');
 
             if (savedTheme === 'dark') {
                 body.classList.add('dark-mode');
-                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
                 themeImage.src = "https://i.postimg.cc/W1pwrtLL/IMG-3132.png"; // صورة المساء
             } else {
                 body.classList.remove('dark-mode');
-                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
                 themeImage.src = "https://i.postimg.cc/GhG5z454/IMG-3129.png"; // صورة الصباح
             }
         }
 
-        // تحميل الوضع عند فتح الصفحة
-        window.onload = loadTheme;
-
-        // دالة لعرض تأثير تكبير زر الإنستجرام
-        function showInstagramPopup() {
-            const overlay = document.getElementById('overlay');
-            const popup = document.getElementById('instagramPopup');
-
-            // تحريك الصفحة لأسفل
-            window.scrollTo({
-                top: document.body.scrollHeight,
-                behavior: 'smooth'
-            });
-
-            // عرض التأثير
-            overlay.classList.add('active');
-            popup.classList.add('active');
-
-            // إخفاء التأثير بعد 5 ثواني
-            setTimeout(() => {
-                overlay.classList.remove('active');
-                popup.classList.remove('active');
-            }, 5000);
+        // إدارة شاشة الترحيب
+        function showWelcome() {
+            const lastShow = localStorage.getItem('lastWelcome');
+            if (!lastShow || Date.now() - lastShow > 172800000) { // 48 ساعة
+                document.getElementById('welcomeOverlay').style.display = 'flex';
+                localStorage.setItem('lastWelcome', Date.now());
+            }
         }
+
+        // تحميل الوضع عند فتح الصفحة
+        window.onload = () => {
+            loadTheme();
+            showWelcome();
+        };
     </script>
 </body>
 </html>
