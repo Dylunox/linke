@@ -1,39 +1,85 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="منصة المحراب - منصة إسلامية تهدف إلى نشر الخير والمعرفة.">
-    <meta name="keywords" content="المحراب, منصة إسلامية, يمان, عبدالله, يوتيوب, واتساب">
-    <meta name="author" content="المحراب">
+    <meta name="description" content="منصة المحراب - منصة إسلامية لنشر الخير والمعرفة بأسلوب عصري وملهم.">
+    <meta name="keywords" content="المحراب, منصة إسلامية, يوتيوب, واتساب, معرفة, خير">
+    <meta name="author" content="فريق المحراب">
     <meta name="robots" content="index, follow">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="theme-color" content="#2980b9">
-    <title>المحراب</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700&display=swap" rel="stylesheet">
+    <meta name="theme-color" content="#1e3a8a">
+    <title>المحراب | منصة الخير والمعرفة</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        /* تنسيق عام للصفحة */
-        body {
-            background: linear-gradient(135deg, #f3f4f6, #e0e0e0);
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            text-align: center;
-            font-family: 'Tajawal', sans-serif;
+        /* إعادة تعيين التنسيقات */
+        * {
             margin: 0;
-            padding: 20px;
-            scroll-behavior: smooth;
-            transition: background 0.5s ease, color 0.5s ease;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        /* الوضع الداكن */
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            color: #1e1e1e;
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background 0.5s ease;
+        }
+
         body.dark-mode {
-            background: linear-gradient(135deg, #1e1e1e, #121212);
-            color: #f0f0f0;
+            background: linear-gradient(135deg, #1e1e2e, #1a2337);
+            color: #e0e0e0;
+        }
+
+        /* شريط التنقل العلوي */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(30, 58, 138, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .navbar .logo {
+            font-family: 'Amiri', serif;
+            font-size: 1.8rem;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .navbar .theme-toggle {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar .theme-toggle:hover {
+            transform: rotate(180deg);
+        }
+
+        body.dark-mode .navbar {
+            background: rgba(17, 24, 39, 0.95);
         }
 
         /* شاشة الترحيب */
@@ -43,44 +89,58 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.95);
+            background: rgba(0, 0, 0, 0.9);
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 10000;
-            backdrop-filter: blur(15px);
-            animation: fadeOut 1s ease 3s forwards;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .welcome-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
         }
 
         .welcome-message {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(15px);
             border-radius: 20px;
-            padding: 2rem;
-            margin: 1rem;
+            padding: 2rem 3rem;
             text-align: center;
-            animation: slideIn 1s ease;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            animation: slideIn 0.8s ease-out;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
         }
 
         .welcome-message h2 {
+            font-family: 'Amiri', serif;
             font-size: 2.5rem;
-            color: #fff;
+            color: #ffffff;
             margin-bottom: 1rem;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
         }
 
         .welcome-message p {
             font-size: 1.2rem;
-            color: #f0f0f0;
-            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+            color: #e0e0e0;
+            margin-bottom: 1.5rem;
         }
 
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; visibility: hidden; }
+        .welcome-message .close-welcome {
+            background: #1e3a8a;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .welcome-message .close-welcome:hover {
+            background: #1e40af;
+            transform: scale(1.05);
         }
 
         @keyframes slideIn {
@@ -88,263 +148,434 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
-        /* شريط الأخبار */
-        .news-bar {
-            width: 100%;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            font-weight: bold;
+        /* المحتوى الرئيسي */
+        .hero {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            padding: 20px;
+            text-align: center;
         }
 
-        /* الفيديو */
-        .video-container {
-            position: relative;
-            width: 100%;
-            max-width: 600px;
-            margin: 2rem auto;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .video-container iframe {
-            width: 100%;
-            height: 300px;
-            border: none;
-            border-radius: 20px;
-        }
-
-        /* تنسيق باقي الصفحة */
-        .container {
-            max-width: 900px;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            animation: fadeIn 1.5s ease-in-out;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.5s ease;
-        }
-
-        body.dark-mode .container {
-            background: rgba(44, 62, 80, 0.9);
-            color: #f0f0f0;
-        }
-
-        .container:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        img {
-            width: 200px;
-            height: 200px;
+        .hero img {
+            width: 180px;
+            height: 180px;
             border-radius: 15px;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s ease;
+            loading: lazy;
         }
 
-        img:hover {
-            transform: scale(1.05);
+        .hero img:hover {
+            transform: scale(1.1);
         }
 
-        h1 {
-            font-size: 34px;
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-            animation: glow 2s infinite alternate;
-            transition: color 0.5s ease;
+        .hero h1 {
+            font-family: 'Amiri', serif;
+            font-size: 2.8rem;
+            color: #1e3a8a;
+            margin-bottom: 20px;
+            animation: glow 3s ease-in-out infinite alternate;
         }
 
-        body.dark-mode h1 {
-            color: #f0f0f0;
+        body.dark-mode .hero h1 {
+            color: #60a5fa;
         }
 
         @keyframes glow {
-            from { text-shadow: 0 0 10px rgba(44, 62, 80, 0.7); }
-            to { text-shadow: 0 0 20px rgba(44, 62, 80, 1); }
+            from { text-shadow: 0 0 5px rgba(30, 58, 138, 0.5); }
+            to { text-shadow: 0 0 20px rgba(30, 58, 138, 0.8); }
         }
 
-        p {
-            font-size: 18px;
-            color: #555;
-            line-height: 1.8;
-            margin-bottom: 25px;
-            transition: color 0.5s ease;
+        .hero p {
+            font-size: 1.2rem;
+            color: #4b5563;
+            max-width: 700px;
+            margin: 0 auto 30px;
         }
 
-        body.dark-mode p {
-            color: #f0f0f0;
+        body.dark-mode .hero p {
+            color: #d1d5db;
         }
 
+        /* الفيديو */
+        .video-section {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* نسبة 16:9 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* الروابط الاجتماعية */
         .social-links {
             display: flex;
             flex-wrap: wrap;
             gap: 15px;
             justify-content: center;
-            margin-top: 20px;
+            margin: 2rem 0;
         }
 
         .social-links a {
-            background: linear-gradient(135deg, #2980b9, #1c598a);
-            padding: 12px 20px;
-            border-radius: 10px;
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
-            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            padding: 12px 25px;
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 600;
             text-decoration: none;
             display: flex;
             align-items: center;
             gap: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .social-links a:hover {
-            background: linear-gradient(135deg, #1c598a, #2980b9);
-            transform: scale(1.08);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
 
-        /* الفوتر (Footer) */
-        footer {
-            width: 100%;
-            background: #2c3e50;
-            color: white;
+        /* قسم الأخبار */
+        .news-section {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 20px;
+        }
+
+        .news-section h2 {
+            font-family: 'Amiri', serif;
+            font-size: 2.2rem;
+            color: #1e3a8a;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        body.dark-mode .news-section h2 {
+            color: #60a5fa;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .news-card {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        body.dark-mode .news-card {
+            background: #1f2937;
+        }
+
+        .news-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .news-card h3 {
+            font-size: 1.3rem;
+            color: #1e3a8a;
+            margin-bottom: 10px;
+        }
+
+        body.dark-mode .news-card h3 {
+            color: #60a5fa;
+        }
+
+        .news-card p {
+            font-size: 1rem;
+            color: #4b5563;
+        }
+
+        body.dark-mode .news-card p {
+            color: #d1d5db;
+        }
+
+        /* نموذج الاشتراك */
+        .subscribe-section {
+            max-width: 600px;
+            margin: 3rem auto;
             padding: 20px;
             text-align: center;
-            margin-top: 30px;
-            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
         }
 
-        footer p {
-            margin: 0;
-            font-size: 14px;
-            color: #f0f0f0;
+        .subscribe-section h2 {
+            font-family: 'Amiri', serif;
+            font-size: 2rem;
+            color: #1e3a8a;
+            margin-bottom: 1rem;
+        }
+
+        body.dark-mode .subscribe-section h2 {
+            color: #60a5fa;
+        }
+
+        .subscribe-form {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .subscribe-form input {
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+            width: 100%;
+            max-width: 300px;
+            transition: border 0.3s ease;
+        }
+
+        .subscribe-form input:focus {
+            border-color: #1e3a8a;
+            outline: none;
+        }
+
+        body.dark-mode .subscribe-form input {
+            background: #1f2937;
+            color: #e0e0e0;
+            border-color: #4b5563;
+        }
+
+        .subscribe-form button {
+            background: #1e3a8a;
+            color: #ffffff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .subscribe-form button:hover {
+            background: #1e40af;
+            transform: scale(1.05);
+        }
+
+        /* الفوتر */
+        footer {
+            background: #1e3a8a;
+            color: #ffffff;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        footer .container {
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         footer a {
-            color: #25D366;
+            color: #93c5fd;
             text-decoration: none;
+            margin: 0 15px;
             transition: color 0.3s ease;
         }
 
         footer a:hover {
-            color: #1c598a;
+            color: #ffffff;
         }
 
-        /* تحسينات للأجهزة المحمولة */
+        footer p {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* التوافق مع الأجهزة */
         @media (max-width: 768px) {
-            h1 {
-                font-size: 28px;
+            .navbar .logo {
+                font-size: 1.5rem;
             }
-            p {
-                font-size: 16px;
-            }
-            img {
-                width: 150px;
-                height: 150px;
-            }
-            .container {
-                padding: 20px;
-            }
-            .social-links a {
-                padding: 10px 15px;
-                font-size: 16px;
-            }
-            .video-container iframe {
-                height: 200px;
-            }
-            .welcome-message h2 {
+
+            .hero h1 {
                 font-size: 2rem;
             }
+
+            .hero img {
+                width: 120px;
+                height: 120px;
+            }
+
+            .video-section {
+                padding: 0 10px;
+            }
+
+            .news-section h2 {
+                font-size: 1.8rem;
+            }
+
+            .subscribe-section h2 {
+                font-size: 1.6rem;
+            }
+
+            .subscribe-form {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .subscribe-form input {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .welcome-message h2 {
+                font-size: 1.8rem;
+            }
+
             .welcome-message p {
+                font-size: 1rem;
+            }
+
+            .social-links a {
+                padding: 10px 20px;
                 font-size: 1rem;
             }
         }
     </style>
 </head>
 <body>
+    <!-- شريط التنقل -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="logo">المحراب</a>
+            <button class="theme-toggle" aria-label="تبديل الوضع" onclick="toggleTheme()">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
     <!-- شاشة الترحيب -->
     <div class="welcome-overlay" id="welcomeOverlay">
         <div class="welcome-message">
-            <h2>مرحبا بكم في المحراب</h2>
-            <p>نحن هنا لنشر الخير والمعرفة، معًا نصنع الفرق!</p>
+            <h2>مرحبًا بكم في المحراب</h2>
+            <p>انضموا إلينا في رحلة نشر الخير والمعرفة بأسلوب ملهم ومبتكر!</p>
+            <button class="close-welcome" onclick="closeWelcome()">ابدأ الآن</button>
         </div>
     </div>
 
-    <!-- شريط الأخبار -->
-    <div class="news-bar">
-        <marquee behavior="scroll" direction="right">📢 أخبار جديدة: تم إطلاق قناة اليوتيوب الرسمية! شاهد أحدث الفيديوهات الآن</marquee>
-    </div>
-
-    <!-- المحتوى الرئيسي -->
-    <div class="container">
-        <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/rIqjxPMMOGs?si=DfAsCpDlesD-wZEn" 
-                    title="فيديو المحراب"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen></iframe>
-        </div>
-        
-        <img id="theme-image" src="https://i.postimg.cc/GhG5z454/IMG-3129.png" alt="المحراب">
-        <h1>المحراب</h1>
-        <p>"من يزرع الخير في الأرض، يحصد في السماء أضعافًا مضاعفة، فإن الله لا يضيع أجر المحسنين."</p>
+    <!-- القسم الرئيسي -->
+    <section class="hero">
+        <img id="theme-image" src="https://i.postimg.cc/GhG5z454/IMG-3129.png" alt="شعار المحراب" loading="lazy">
+        <h1>منصة المحراب</h1>
+        <p>نزرع الخير في الأرض لنحصد أضعافًا مضاعفة في السماء، معًا نبني مجتمعًا ملهمًا.</p>
         <div class="social-links">
-            <a href="https://whatsapp.com/channel/0029VafTNNQ7DAWu5NQP0O3I" target="_blank"><i class="fa-brands fa-whatsapp"></i> واتساب</a>
-            <a href="https://youtube.com/@almihrab.om1?si=iUtB5q2kHfFIrg7G" target="_blank"><i class="fa-brands fa-youtube"></i> يوتيوب</a>
-            <a href="https://www.instagram.com/almihrab.om?igsh=MXJlZHgxdGM5dXAybQ==" target="_blank"><i class="fa-brands fa-instagram"></i> انستجرام</a>
-            <a href="https://x.com/Oman_male?t=SkFwesWGWVPcXJIBYFDpIA&s=09" target="_blank"><i class="fa-brands fa-twitter"></i> تويتر</a>
+            <a href="https://whatsapp.com/channel/0029VafTNNQ7DAWu5NQP0O3I" target="_blank">
+                <i class="fa-brands fa-whatsapp"></i> واتساب
+            </a>
+            <a href="https://youtube.com/@almihrab.om1?si=iUtB5q2kHfFIrg7G" target="_blank">
+                <i class="fa-brands fa-youtube"></i> يوتيوب
+            </a>
+            <a href="https://www.instagram.com/almihrab.om?igsh=MXJlZHgxdGM5dXAybQ==" target="_blank">
+                <i class="fa-brands fa-instagram"></i> انستجرام
+            </a>
+            <a href="https://x.com/Oman_male?t=SkFwesWGWVPcXJIBYFDpIA&s=09" target="_blank">
+                <i class="fa-brands fa-x-twitter"></i> إكس
+            </a>
         </div>
-    </div>
+    </section>
 
-    <!-- الفوتر (Footer) -->
+    <!-- قسم الفيديو -->
+    <section class="video-section">
+        <div class="video-container">
+            <iframe loading="lazy" src="https://www.youtube.com/embed/rIqjxPMMOGs?si=DfAsCpDlesD-wZEn" 
+                    title="فيديو المحراب" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </section>
+
+    <!-- قسم الأخبار -->
+    <section class="news-section">
+        <h2>آخر الأخبار</h2>
+        <div class="news-grid">
+            <div class="news-card">
+                <h3>إطلاق قناة اليوتيوب الرسمية</h3>
+                <p>تابع أحدث الفيديوهات التي تحمل رسائل ملهمة ومعرفة غنية.</p>
+            </div>
+            <div class="news-card">
+                <h3>سلسلة دروس جديدة</h3>
+                <p>استعد لسلسلة دروس حول القيم الإسلامية بأسلوب عصري قريبًا!</p>
+            </div>
+            <div class="news-card">
+                <h3>مسابقة ثقافية</h3>
+                <p>شارك في مسابقة المحراب الثقافية واربح جوائز قيمة!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- نموذج الاشتراك -->
+    <section class="subscribe-section">
+        <h2>اشترك في نشرتنا الإخبارية</h2>
+        <form class="subscribe-form" onsubmit="subscribe(event)">
+            <input type="email" placeholder="أدخل بريدك الإلكتروني" required>
+            <button type="submit">اشترك الآن</button>
+        </form>
+    </section>
+
+    <!-- الفوتر -->
     <footer>
-        <p>جميع الحقوق محفوظة &copy; 2025 <a href="#">المحراب</a></p>
+        <div class="container">
+            <a href="#">سياسة الخصوصية</a>
+            <a href="#">اتصل بنا</a>
+            <a href="#">عن المحراب</a>
+            <p>جميع الحقوق محفوظة © 2025 المحراب</p>
+        </div>
     </footer>
 
     <script>
-        // دالة التبديل بين الثيمات
+        // تبديل الوضع الداكن
         function toggleTheme() {
             const body = document.body;
             const themeImage = document.getElementById('theme-image');
-
+            const themeIcon = document.querySelector('.theme-toggle i');
             body.classList.toggle('dark-mode');
-
-            // تغيير صورة الشعار
-            themeImage.src = body.classList.contains('dark-mode') ? 
-                "https://i.postimg.cc/W1pwrtLL/IMG-3132.png" : 
-                "https://i.postimg.cc/GhG5z454/IMG-3129.png";
-
-            // حفظ الوضع في localStorage
+            themeImage.src = body.classList.contains('dark-mode') 
+                ? 'https://i.postimg.cc/W1pwrtLL/IMG-3132.png' 
+                : 'https://i.postimg.cc/GhG5z454/IMG-3129.png';
+            themeIcon.classList.toggle('fa-moon');
+            themeIcon.classList.toggle('fa-sun');
             localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
         }
 
-        // دالة لتحميل الوضع المحفوظ
+        // تحميل الوضع المحفوظ
         function loadTheme() {
             const savedTheme = localStorage.getItem('theme');
-            const body = document.body;
-            const themeImage = document.getElementById('theme-image');
-
             if (savedTheme === 'dark') {
-                body.classList.add('dark-mode');
-                themeImage.src = "https://i.postimg.cc/W1pwrtLL/IMG-3132.png"; // صورة المساء
-            } else {
-                body.classList.remove('dark-mode');
-                themeImage.src = "https://i.postimg.cc/GhG5z454/IMG-3129.png"; // صورة الصباح
+                document.body.classList.add('dark-mode');
+                document.getElementById('theme-image').src = 'https://i.postimg.cc/W1pwrtLL/IMG-3132.png';
+                document.querySelector('.theme-toggle i').classList.replace('fa-moon', 'fa-sun');
             }
+        }
+
+        // إغلاق شاشة الترحيب
+        function closeWelcome() {
+            const welcomeOverlay = document.getElementById('welcomeOverlay');
+            welcomeOverlay.classList.add('hidden');
+            setTimeout(() => {
+                welcomeOverlay.style.display = 'none';
+            }, 500);
         }
 
         // إدارة شاشة الترحيب
@@ -353,10 +584,20 @@
             if (!lastShow || Date.now() - lastShow > 172800000) { // 48 ساعة
                 document.getElementById('welcomeOverlay').style.display = 'flex';
                 localStorage.setItem('lastWelcome', Date.now());
+            } else {
+                document.getElementById('welcomeOverlay').style.display = 'none';
             }
         }
 
-        // تحميل الوضع عند فتح الصفحة
+        // نموذج الاشتراك (محاكاة)
+        function subscribe(event) {
+            event.preventDefault();
+            const email = event.target.querySelector('input').value;
+            alert(`تم الاشتراك بنجاح باستخدام: ${email}`);
+            event.target.reset();
+        }
+
+        // تحميل الإعدادات
         window.onload = () => {
             loadTheme();
             showWelcome();
