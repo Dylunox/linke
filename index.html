@@ -13,6 +13,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <!-- إضافة مكتبة hls.js لدعم بث HLS -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
         /* إعادة تعيين التنسيقات */
         * {
@@ -36,7 +39,7 @@
             color: #e0e0e0;
         }
 
-        /* شاشة التحميل الجديدة */
+        /* شاشة التحميل */
         .loading-overlay {
             position: fixed;
             top: 0;
@@ -45,7 +48,6 @@
             height: 100%;
             background: linear-gradient(135deg, #1e3a8a, #6b7280);
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 10001;
@@ -59,9 +61,27 @@
             pointer-events: none;
         }
 
-        .loading-container {
-            position: relative;
-            text-align: center;
+        .loading-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .loading-particles::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+            animation: particlesMove 10s linear infinite;
+        }
+
+        @keyframes particlesMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100%, -100%); }
         }
 
         .loading-text {
@@ -69,75 +89,15 @@
             font-weight: 700;
             font-size: 2rem;
             color: #ffffff;
-            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
             opacity: 0;
             animation: fadeInText 1.5s ease-in-out forwards;
-        }
-
-        .loading-elements {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
-
-        .loading-star, .loading-dome {
-            position: absolute;
-            opacity: 0.7;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .loading-star {
-            width: 20px;
-            height: 20px;
-            background: url('https://i.postimg.cc/4y7W8zXJ/star-icon.png') no-repeat center;
-            background-size: contain;
-        }
-
-        .loading-dome {
-            width: 30px;
-            height: 30px;
-            background: url('https://i.postimg.cc/3JqX7k2q/dome-icon.png') no-repeat center;
-            background-size: contain;
-        }
-
-        .star-1 { top: 20%; left: 30%; animation-delay: 0s; }
-        .star-2 { top: 60%; left: 70%; animation-delay: 1s; }
-        .star-3 { top: 40%; left: 20%; animation-delay: 2s; }
-        .dome-1 { top: 30%; left: 60%; animation-delay: 0.5s; }
-        .dome-2 { top: 70%; left: 40%; animation-delay: 1.5s; }
-
-        .loading-overlay::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), transparent);
-            animation: gradientShift 8s ease-in-out infinite;
-        }
-
-        body.dark-mode .loading-overlay {
-            background: linear-gradient(135deg, #111827, #1e3a8a);
         }
 
         @keyframes fadeInText {
             0% { opacity: 0; transform: translateY(20px); }
             100% { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
         }
 
         /* شريط التنقل */
@@ -147,39 +107,51 @@
             width: 100%;
             background: rgba(30, 58, 138, 0.95);
             backdrop-filter: blur(10px);
-            padding: 15px 0;
+            padding: 15px 20px;
             z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .navbar .container {
-            max-width: 1200px;
-            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 20px;
         }
 
         .navbar .logo {
             font-family: 'Amiri', serif;
-            font-size: 1.8rem;
+            font-size: 2rem;
             color: #ffffff;
             text-decoration: none;
-            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff, #93c5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: transform 0.3s ease, text-shadow 0.3s ease;
         }
 
-        .navbar .theme-toggle {
-            background: none;
+        .navbar .logo:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .theme-toggle {
+            background: linear-gradient(135deg, #3b82f6, #1e3a8a);
             border: none;
-            color: #ffffff;
-            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .theme-toggle i {
+            font-size: 1.2rem;
+            color: #ffffff;
             transition: transform 0.3s ease;
         }
 
-        .navbar .theme-toggle:hover {
-            transform: rotate(180deg);
+        .theme-toggle:hover {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            transform: rotate(20deg);
         }
 
         body.dark-mode .navbar {
@@ -193,7 +165,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.7);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -208,48 +180,59 @@
         }
 
         .welcome-message {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 2rem 3rem;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
             text-align: center;
             max-width: 500px;
-            animation: slideIn 0.8s ease-out;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.8s ease-in-out;
         }
 
         .welcome-message h2 {
             font-family: 'Amiri', serif;
-            font-size: 2.5rem;
-            color: #ffffff;
-            margin-bottom: 1rem;
+            font-size: 2rem;
+            color: #1e3a8a;
+            margin-bottom: 15px;
         }
 
         .welcome-message p {
             font-size: 1.2rem;
-            color: #e0e0e0;
-            margin-bottom: 1.5rem;
+            color: #4b5563;
+            margin-bottom: 20px;
         }
 
-        .welcome-message .close-welcome {
-            background: #1e3a8a;
+        .close-welcome {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
             color: #ffffff;
             border: none;
             padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 1rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
             cursor: pointer;
-            transition: background 0.3s ease, transform 0.3s ease;
+            transition: transform 0.3s ease, background 0.3s ease;
         }
 
-        .welcome-message .close-welcome:hover {
-            background: #1e40af;
+        .close-welcome:hover {
+            background: linear-gradient(135deg, #3b82f6, #1e3a8a);
             transform: scale(1.05);
         }
 
-        @keyframes slideIn {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        body.dark-mode .welcome-message {
+            background: #1f2937;
+        }
+
+        body.dark-mode .welcome-message h2 {
+            color: #60a5fa;
+        }
+
+        body.dark-mode .welcome-message p {
+            color: #d1d5db;
         }
 
         /* الخلفية المتحركة */
@@ -295,29 +278,29 @@
             text-align: center;
         }
 
-        .hero img.animate {
+        .hero img {
             width: 180px;
             height: 180px;
             border-radius: 15px;
             margin-bottom: 20px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            animation: fadeIn 1.2s ease-in-out 0.5s both;
+            border: 5px solid #1e3a8a;
+            padding: 5px;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
         }
 
-        .hero h1.animate-title {
+        .hero h1 {
             font-family: 'Amiri', serif;
             font-size: 2.8rem;
             color: #1e3a8a;
             margin-bottom: 20px;
-            animation: fadeIn 1.2s ease-in-out 0.7s both;
         }
 
-        .hero p.animate-desc {
+        .hero p {
             font-size: 1.2rem;
             color: #4b5563;
             max-width: 700px;
             margin: 0 auto 30px;
-            animation: fadeIn 1.2s ease-in-out 0.9s both;
         }
 
         body.dark-mode .hero h1 {
@@ -326,11 +309,6 @@
 
         body.dark-mode .hero p {
             color: #d1d5db;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         /* الروابط الاجتماعية */
@@ -355,14 +333,31 @@
             gap: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+            position: relative;
+            overflow: hidden;
             opacity: 0;
             animation: fadeIn 0.5s ease-in-out forwards;
         }
 
-        .social-links a:nth-child(1) { animation-delay: 1.1s; }
-        .social-links a:nth-child(2) { animation-delay: 1.3s; }
-        .social-links a:nth-child(3) { animation-delay: 1.5s; }
-        .social-links a:nth-child(4) { animation-delay: 1.7s; }
+        .social-links a:nth-child(1) { animation-delay: 0.1s; }
+        .social-links a:nth-child(2) { animation-delay: 0.2s; }
+        .social-links a:nth-child(3) { animation-delay: 0.3s; }
+        .social-links a:nth-child(4) { animation-delay: 0.4s; }
+
+        .social-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.3s ease;
+        }
+
+        .social-links a:hover::before {
+            left: 0;
+        }
 
         .social-links a:hover {
             background: linear-gradient(135deg, #3b82f6, #1e3a8a);
@@ -373,8 +368,9 @@
         /* قسم الفيديو */
         .video-section {
             max-width: 800px;
-            margin: 2rem auto;
-            padding: 0 20px;
+            margin: 50px auto;
+            padding: 20px;
+            text-align: center;
         }
 
         .video-container {
@@ -383,7 +379,8 @@
             height: 0;
             overflow: hidden;
             border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            background: #ffffff;
         }
 
         .video-container iframe {
@@ -395,7 +392,106 @@
             border: none;
         }
 
-        /* قسم الاقتباسات (محسن) */
+        body.dark-mode .video-container {
+            background: #1f2937;
+        }
+
+        /* قسم البث المباشر */
+        .live-stream-section {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .live-stream-section h2 {
+            font-family: 'Amiri', serif;
+            font-size: 2.5rem;
+            color: #1e3a8a;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .live-stream-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+            border-radius: 2px;
+        }
+
+        .live-stream-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            background: #ffffff;
+        }
+
+        .live-stream-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .live-stream-fallback {
+            display: none;
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
+        }
+
+        .live-stream-fallback p {
+            font-size: 1.2rem;
+            color: #4b5563;
+            margin-bottom: 15px;
+        }
+
+        .live-stream-fallback a {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .live-stream-fallback a:hover {
+            background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+            transform: scale(1.05);
+        }
+
+        body.dark-mode .live-stream-section h2 {
+            color: #60a5fa;
+        }
+
+        body.dark-mode .live-stream-section h2::after {
+            background: linear-gradient(90deg, #60a5fa, #93c5fd);
+        }
+
+        body.dark-mode .live-stream-container,
+        body.dark-mode .live-stream-fallback {
+            background: #1f2937;
+        }
+
+        body.dark-mode .live-stream-fallback p {
+            color: #d1d5db;
+        }
+
+        /* قسم الاقتباسات */
         .quotes-section {
             max-width: 1200px;
             margin: 3rem auto;
@@ -409,7 +505,6 @@
             color: #1e3a8a;
             margin-bottom: 2.5rem;
             position: relative;
-            animation: fadeIn 1s ease-in-out;
         }
 
         .quotes-section h2::after {
@@ -441,9 +536,9 @@
 
         .quote-card {
             background: #ffffff;
-            border-radius: 15px;
+            border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             position: relative;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             overflow: hidden;
@@ -453,35 +548,29 @@
         .quote-card:nth-child(1) { animation-delay: 0.1s; }
         .quote-card:nth-child(2) { animation-delay: 0.2s; }
         .quote-card:nth-child(3) { animation-delay: 0.3s; }
-        .quote-card:nth-child(4) { animation-delay: 0.4s; }
-        .quote-card:nth-child(5) { animation-delay: 0.5s; }
-        .quote-card:nth-child(6) { animation-delay: 0.6s; }
-
-        body.dark-mode .quote-card {
-            background: #1f2937;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
 
         .quote-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2), 0 0 15px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2), 0 0 20px rgba(59, 130, 246, 0.5);
         }
 
         .quote-card::before {
             content: '\f6c1';
             font-family: 'Font Awesome 6 Free';
             font-weight: 900;
-            font-size: 2rem;
+            font-size: 3rem;
             color: #1e3a8a;
             position: absolute;
-            top: 15px;
+            top: 50%;
             left: 50%;
-            transform: translateX(-50%);
-            opacity: 0.2;
+            transform: translate(-50%, -50%);
+            opacity: 0.1;
+            z-index: 0;
         }
 
-        body.dark-mode .quote-card::before {
-            color: #60a5fa;
+        .quote-card p, .quote-card span {
+            position: relative;
+            z-index: 1;
         }
 
         .quote-card p {
@@ -490,11 +579,6 @@
             color: #1e3a8a;
             margin-bottom: 15px;
             line-height: 1.8;
-            animation: textShift 0.5s ease-in-out forwards;
-        }
-
-        body.dark-mode .quote-card p {
-            color: #93c5fd;
         }
 
         .quote-card span {
@@ -503,18 +587,40 @@
             font-weight: 600;
         }
 
+        body.dark-mode .quote-card {
+            background: #1f2937;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark-mode .quote-card p {
+            color: #93c5fd;
+        }
+
         body.dark-mode .quote-card span {
             color: #9ca3af;
+        }
+
+        .show-more-btn {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: #ffffff;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 2rem;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .show-more-btn:hover {
+            background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+            transform: scale(1.05);
         }
 
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes textShift {
-            from { transform: translateX(10px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
         }
 
         /* الفوتر */
@@ -561,11 +667,11 @@
                 height: 120px;
             }
 
-            .video-section {
-                padding: 0 10px;
+            .video-section, .live-stream-section {
+                padding: 10px;
             }
 
-            .quotes-section h2 {
+            .quotes-section h2, .live-stream-section h2 {
                 font-size: 2rem;
             }
 
@@ -578,6 +684,14 @@
             }
 
             .loading-text {
+                font-size: 1.5rem;
+            }
+
+            .welcome-message {
+                padding: 20px;
+            }
+
+            .welcome-message h2 {
                 font-size: 1.5rem;
             }
         }
@@ -596,7 +710,7 @@
                 font-size: 1rem;
             }
 
-            .quotes-section h2 {
+            .quotes-section h2, .live-stream-section h2 {
                 font-size: 1.8rem;
             }
 
@@ -611,31 +725,20 @@
     </style>
 </head>
 <body>
-    <!-- شاشة التحميل الجديدة -->
+    <!-- شاشة التحميل -->
     <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-container">
-            <div class="loading-text">مع المحراب... الخير يبدأ</div>
-            <div class="loading-elements">
-                <div class="loading-star star-1"></div>
-                <div class="loading-star star-2"></div>
-                <div class="loading-star star-3"></div>
-                <div class="loading-dome dome-1"></div>
-                <div class="loading-dome dome-2"></div>
-            </div>
-        </div>
-        <audio id="loadingSound" src="path-to-sound.mp3" preload="auto"></audio>
+        <div class="loading-particles"></div>
+        <div class="loading-text">مع المحراب... الخير يبدأ</div>
     </div>
 
     <div class="background-animation"></div>
 
     <!-- شريط التنقل -->
     <nav class="navbar">
-        <div class="container">
-            <a href="#" class="logo">المحراب</a>
-            <button class="theme-toggle" aria-label="تبديل الوضع" onclick="toggleTheme()">
-                <i class="fas fa-moon"></i>
-            </button>
-        </div>
+        <a href="#" class="logo">المحراب</a>
+        <button class="theme-toggle" aria-label="تبديل الوضع" onclick="toggleTheme()">
+            <i class="fas fa-moon"></i>
+        </button>
     </nav>
 
     <!-- شاشة الترحيب -->
@@ -643,15 +746,15 @@
         <div class="welcome-message">
             <h2>مرحبًا بكم في المحراب</h2>
             <p>انضموا إلينا في رحلة نشر الخير والمعرفة بأسلوب ملهم ومبتكر!</p>
-            <button class="close-welcome" onclick="closeWelcome()">ابدأ الآن</button>
+            <button class="close-welcome" onclick="closeWelcome()">ابدأ</button>
         </div>
     </div>
 
     <!-- القسم الرئيسي -->
-    <section class="hero">
-        <img id="theme-image" class="animate" src="https://i.postimg.cc/GhG5z454/IMG-3129.png" alt="شعار المحراب" loading="lazy">
-        <h1 class="animate-title">منصة المحراب</h1>
-        <p class="animate-desc">نزرع الخير في الأرض لنحصد أضعافًا مضاعفة في السماء، معًا نبني مجتمعًا ملهمًا.</p>
+    <section class="hero" data-aos="fade-up">
+        <img id="theme-image" src="https://i.postimg.cc/GhG5z454/IMG-3129.png" alt="شعار المحراب" loading="lazy">
+        <h1>منصة المحراب</h1>
+        <p>نزرع الخير في الأرض لنحصد أضعافًا مضاعفة في السماء، معًا نبني مجتمعًا ملهمًا.</p>
         <div class="social-links">
             <a href="https://whatsapp.com/channel/0029VafTNNQ7DAWu5NQP0O3I" target="_blank">
                 <i class="fa-brands fa-whatsapp"></i> واتساب
@@ -669,17 +772,31 @@
     </section>
 
     <!-- قسم الفيديو -->
-    <section class="video-section">
+    <section class="video-section" data-aos="fade-up" data-aos-delay="200">
         <div class="video-container">
             <iframe loading="lazy" src="https://www.youtube.com/embed/rIqjxPMMOGs?si=DfAsCpDlesD-wZEn" 
                     title="فيديو المحراب" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
     </section>
 
-    <!-- قسم الاقتباسات (محسن) -->
-    <section class="quotes-section">
+    <!-- قسم البث المباشر -->
+    <section class="live-stream-section" data-aos="fade-up" data-aos-delay="300">
+        <h2>البث المباشر - قناة الاستقامة</h2>
+        <div class="live-stream-container">
+            <video id="liveStreamVideo" class="video-js" controls autoplay muted>
+                <source src="https://jmc-live.ercdn.net/alistiqama/alistiqama.m3u8" type="application/x-mpegURL">
+            </video>
+        </div>
+        <div class="live-stream-fallback" id="liveStreamFallback">
+            <p>البث المباشر غير متاح حاليًا. يرجى زيارة القناة الرسمية لمزيد من المعلومات.</p>
+            <a href="https://x.com/alistiqamatv" target="_blank">زوروا قناة الاستقامة</a>
+        </div>
+    </section>
+
+    <!-- قسم الاقتباسات -->
+    <section class="quotes-section" data-aos="fade-up" data-aos-delay="400">
         <h2>اقتباسات ملهمة</h2>
-        <div class="quotes-grid">
+        <div class="quotes-grid" id="quotesGrid">
             <div class="quote-card">
                 <p>"الخير فيّ وفي أمتي إلى يوم القيامة"</p>
                 <span>- حديث شريف</span>
@@ -692,19 +809,8 @@
                 <p>"كن في الدنيا كأنك غريب أو عابر سبيل"</p>
                 <span>- حديث شريف</span>
             </div>
-            <div class="quote-card">
-                <p>"إن الله يحب إذا عمل أحدكم عملاً أن يتقنه"</p>
-                <span>- حديث شريف</span>
-            </div>
-            <div class="quote-card">
-                <p>"خير الناس أنفعهم للناس"</p>
-                <span>- حديث شريف</span>
-            </div>
-            <div class="quote-card">
-                <p>"من يرد الله به خيرًا يفقهه في الدين"</p>
-                <span>- حديث شريف</span>
-            </div>
         </div>
+        <button id="showMoreQuotes" class="show-more-btn">عرض المزيد</button>
     </section>
 
     <!-- الفوتر -->
@@ -717,7 +823,13 @@
         </div>
     </footer>
 
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+
         // تبديل الوضع الداكن
         function toggleTheme() {
             const body = document.body;
@@ -749,24 +861,23 @@
             setTimeout(() => {
                 welcomeOverlay.style.display = 'none';
             }, 500);
+            localStorage.setItem('welcomeShown', 'true');
         }
 
         // إدارة شاشة الترحيب
         function showWelcome() {
-            const lastShow = localStorage.getItem('lastWelcome');
-            if (!lastShow || Date.now() - lastShow > 172800000) {
-                document.getElementById('welcomeOverlay').style.display = 'flex';
-                localStorage.setItem('lastWelcome', Date.now());
+            const welcomeShown = localStorage.getItem('welcomeShown');
+            const welcomeOverlay = document.getElementById('welcomeOverlay');
+            if (!welcomeShown) {
+                welcomeOverlay.style.display = 'flex';
             } else {
-                document.getElementById('welcomeOverlay').style.display = 'none';
+                welcomeOverlay.style.display = 'none';
             }
         }
 
         // إخفاء صفحة التحميل
         window.addEventListener('load', () => {
             const loadingOverlay = document.getElementById('loadingOverlay');
-            const sound = document.getElementById('loadingSound');
-            sound.play().catch(() => console.log('Autoplay blocked'));
             setTimeout(() => {
                 loadingOverlay.classList.add('hidden');
                 setTimeout(() => {
@@ -775,6 +886,69 @@
             }, 1500);
             loadTheme();
             showWelcome();
+            setupLiveStream();
+        });
+
+        // إعداد البث المباشر
+        function setupLiveStream() {
+            const video = document.getElementById('liveStreamVideo');
+            const fallback = document.getElementById('liveStreamFallback');
+            const streamUrl = 'https://jmc-live.ercdn.net/alistiqama/alistiqama.m3u8';
+
+            if (Hls.isSupported()) {
+                const hls = new Hls();
+                hls.loadSource(streamUrl);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                    video.play().catch(error => {
+                        console.error('خطأ في تشغيل البث:', error);
+                        video.style.display = 'none';
+                        fallback.style.display = 'block';
+                    });
+                });
+                hls.on(Hls.Events.ERROR, (event, data) => {
+                    console.error('خطأ في البث:', data);
+                    video.style.display = 'none';
+                    fallback.style.display = 'block';
+                });
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = streamUrl;
+                video.play().catch(error => {
+                    console.error('خطأ في تشغيل البث:', error);
+                    video.style.display = 'none';
+                    fallback.style.display = 'block';
+                });
+            } else {
+                video.style.display = 'none';
+                fallback.style.display = 'block';
+            }
+        }
+
+        // عرض المزيد من الاقتباسات
+        const moreQuotes = [
+            {
+                text: "إن الله يحب إذا عمل أحدكم عملاً أن يتقنه",
+                source: "- حديث شريف"
+            },
+            {
+                text: "خير الناس أنفعهم للناس",
+                source: "- حديث شريف"
+            },
+            {
+                text: "من يرد الله به خيرًا يفقهه في الدين",
+                source: "- حديث شريف"
+            }
+        ];
+
+        document.getElementById('showMoreQuotes').addEventListener('click', function() {
+            const grid = document.getElementById('quotesGrid');
+            moreQuotes.forEach(quote => {
+                const card = document.createElement('div');
+                card.classList.add('quote-card');
+                card.innerHTML = `<p>"${quote.text}"</p><span>${quote.source}</span>`;
+                grid.appendChild(card);
+            });
+            this.style.display = 'none';
         });
     </script>
 </body>
