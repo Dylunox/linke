@@ -9,12 +9,15 @@
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#1e3a8a">
     <title>المحراب | منصة الخير والمعرفة</title>
+    <!-- Font Awesome للأيقونات -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- خطوط جوجل (Amiri وCairo) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- مكتبة AOS للتأثيرات -->
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-    <!-- إضافة مكتبة hls.js لدعم بث HLS -->
+    <!-- مكتبة hls.js لدعم بث HLS -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
         /* إعادة تعيين التنسيقات */
@@ -63,16 +66,6 @@
 
         .loading-particles {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .loading-particles::before {
-            content: '';
-            position: absolute;
             width: 100%;
             height: 100%;
             background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
@@ -89,8 +82,6 @@
             font-weight: 700;
             font-size: 2rem;
             color: #ffffff;
-            position: relative;
-            z-index: 1;
             opacity: 0;
             animation: fadeInText 1.5s ease-in-out forwards;
         }
@@ -146,7 +137,6 @@
         .theme-toggle i {
             font-size: 1.2rem;
             color: #ffffff;
-            transition: transform 0.3s ease;
         }
 
         .theme-toggle:hover {
@@ -402,6 +392,7 @@
             margin: 50px auto;
             padding: 20px;
             text-align: center;
+            position: relative;
         }
 
         .live-stream-section h2 {
@@ -441,6 +432,147 @@
             width: 100%;
             height: 100%;
             border: none;
+            display: none; /* إخفاء الفيديو مبدئيًا */
+        }
+
+        /* تأثير التحميل */
+        .live-stream-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: block;
+            z-index: 10;
+        }
+
+        .live-stream-loading i {
+            font-size: 3rem;
+            color: #ffffff;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* شريط التحكم */
+        .live-stream-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 10px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        body.dark-mode .live-stream-controls {
+            background: rgba(31, 41, 55, 0.95);
+        }
+
+        .control-btn {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .control-btn i {
+            font-size: 1.4rem;
+            color: #ffffff;
+        }
+
+        .control-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.3s ease;
+        }
+
+        .control-btn:hover::before {
+            left: 0;
+        }
+
+        .control-btn:hover {
+            background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            transform: scale(1.1);
+        }
+
+        /* قائمة الجودة */
+        .quality-select {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            border: none;
+            color: #ffffff;
+            padding: 0 10px;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .quality-select:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* شريط التقدم */
+        .progress-bar-container {
+            width: 100%;
+            height: 5px;
+            background: #e5e7eb;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 0;
+            height: 100%;
+            background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+            transition: width 0.3s ease;
+        }
+
+        body.dark-mode .progress-bar-container {
+            background: #4b5563;
+        }
+
+        /* الإشعارات */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-10px);
         }
 
         .live-stream-fallback {
@@ -459,17 +591,24 @@
             margin-bottom: 15px;
         }
 
-        .live-stream-fallback a {
+        .live-stream-fallback a, .retry-btn {
             background: linear-gradient(135deg, #1e3a8a, #3b82f6);
             color: #ffffff;
             padding: 10px 20px;
             border-radius: 10px;
             text-decoration: none;
             font-weight: 600;
+            display: inline-block;
+            margin: 10px 0;
             transition: background 0.3s ease, transform 0.3s ease;
         }
 
-        .live-stream-fallback a:hover {
+        .retry-btn {
+            border: none;
+            cursor: pointer;
+        }
+
+        .live-stream-fallback a:hover, .retry-btn:hover {
             background: linear-gradient(135deg, #3b82f6, #1e3a8a);
             transform: scale(1.05);
         }
@@ -551,7 +690,7 @@
 
         .quote-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2), 0 0 20px rgba(59, 130, 246, 0.5);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
         }
 
         .quote-card::before {
@@ -565,7 +704,6 @@
             left: 50%;
             transform: translate(-50%, -50%);
             opacity: 0.1;
-            z-index: 0;
         }
 
         .quote-card p, .quote-card span {
@@ -694,6 +832,20 @@
             .welcome-message h2 {
                 font-size: 1.5rem;
             }
+
+            .control-btn {
+                width: 40px;
+                height: 40px;
+            }
+
+            .control-btn i {
+                font-size: 1.2rem;
+            }
+
+            .quality-select {
+                width: 80px;
+                font-size: 0.9rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -721,6 +873,20 @@
             .loading-text {
                 font-size: 1.3rem;
             }
+
+            .control-btn {
+                width: 35px;
+                height: 35px;
+            }
+
+            .control-btn i {
+                font-size: 1rem;
+            }
+
+            .quality-select {
+                width: 70px;
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
@@ -731,6 +897,7 @@
         <div class="loading-text">مع المحراب... الخير يبدأ</div>
     </div>
 
+    <!-- خلفية متحركة -->
     <div class="background-animation"></div>
 
     <!-- شريط التنقل -->
@@ -763,7 +930,7 @@
                 <i class="fa-brands fa-youtube"></i> يوتيوب
             </a>
             <a href="https://www.instagram.com/almihrab.om?igsh=MXJlZHgxdGM5dXAybQ==" target="_blank">
-                <i class="fa-brands fa-instagram"></i> انستجرام
+                <i class="fa-brands fa-instagram"></i> انستغرام
             </a>
             <a href="https://x.com/Oman_male?t=SkFwesWGWVPcXJIBYFDpIA&s=09" target="_blank">
                 <i class="fa-brands fa-x-twitter"></i> إكس
@@ -786,10 +953,35 @@
             <video id="liveStreamVideo" class="video-js" controls autoplay muted>
                 <source src="https://jmc-live.ercdn.net/alistiqama/alistiqama.m3u8" type="application/x-mpegURL">
             </video>
+            <div class="live-stream-loading" id="streamLoading">
+                <i class="fas fa-spinner"></i>
+            </div>
+        </div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="live-stream-controls" data-aos="fade-up" data-aos-delay="400">
+            <button class="control-btn" id="playPauseBtn" title="تشغيل/إيقاف مؤقت">
+                <i class="fas fa-play"></i>
+            </button>
+            <button class="control-btn" id="muteBtn" title="إيقاف/تشغيل الصوت">
+                <i class="fas fa-volume-up"></i>
+            </button>
+            <button class="control-btn" id="fullscreenBtn" title="تكبير/تصغير الشاشة">
+                <i class="fas fa-expand"></i>
+            </button>
+            <button class="control-btn" id="refreshBtn" title="إعادة تحميل البث">
+                <i class="fas fa-sync-alt"></i>
+            </button>
+            <select id="qualitySelect" class="quality-select" title="تغيير الجودة">
+                <option value="auto">تلقائي</option>
+            </select>
         </div>
         <div class="live-stream-fallback" id="liveStreamFallback">
-            <p>البث المباشر غير متاح حاليًا. يرجى زيارة القناة الرسمية لمزيد من المعلومات.</p>
-            <a href="https://x.com/alistiqamatv" target="_blank">زوروا قناة الاستقامة</a>
+            <p>البث المباشر غير متاح حاليًا بعد عدة محاولات. قد يكون الرابط معطلًا أو الخادم قيد الصيانة.</p>
+            <button class="retry-btn" onclick="retryStream()">إعادة المحاولة</button>
+            <p>للحصول على رابط محدث، تواصلوا مع القناة:</p>
+            <a href="https://x.com/alistiqamatv" target="_blank">حساب قناة الاستقامة على إكس</a>
         </div>
     </section>
 
@@ -823,8 +1015,13 @@
         </div>
     </footer>
 
+    <!-- الإشعارات -->
+    <div class="notification" id="notification"></div>
+
+    <!-- مكتبة AOS -->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
+        // تهيئة AOS
         AOS.init({
             duration: 800,
             once: true
@@ -875,69 +1072,302 @@
             }
         }
 
-        // إخفاء صفحة التحميل
-        window.addEventListener('load', () => {
-            const loadingOverlay = document.getElementById('loadingOverlay');
+        // عرض الإشعارات
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
             setTimeout(() => {
-                loadingOverlay.classList.add('hidden');
-                setTimeout(() => {
-                    loadingOverlay.style.display = 'none';
-                }, 500);
-            }, 1500);
-            loadTheme();
-            showWelcome();
-            setupLiveStream();
-        });
+                notification.classList.remove('show');
+            }, 3000);
+        }
 
         // إعداد البث المباشر
+        let hls = null;
+        let retryCount = 0;
+        const maxRetries = 3;
+        let retryTimeout = null;
+
         function setupLiveStream() {
             const video = document.getElementById('liveStreamVideo');
             const fallback = document.getElementById('liveStreamFallback');
+            const loading = document.getElementById('streamLoading');
+            const progressBar = document.getElementById('progressBar');
+            const qualitySelect = document.getElementById('qualitySelect');
             const streamUrl = 'https://jmc-live.ercdn.net/alistiqama/alistiqama.m3u8';
 
+            // إخفاء الفيديو والفوتر مبدئيًا
+            video.style.display = 'none';
+            fallback.style.display = 'none';
+            loading.style.display = 'block';
+
+            // فحص توافق الفيديو
+            if (!video.canPlayType('video/mp2t') && !Hls.isSupported()) {
+                video.style.display = 'none';
+                fallback.style.display = 'block';
+                loading.style.display = 'none';
+                showNotification('المتصفح لا يدعم تنسيق الفيديو');
+                return;
+            }
+
             if (Hls.isSupported()) {
-                const hls = new Hls();
+                hls = new Hls({
+                    enableWorker: true,
+                    maxBufferLength: 30,
+                    maxMaxBufferLength: 60,
+                    liveSyncDurationCount: 3,
+                    liveMaxLatencyDurationCount: 10,
+                    lowLatencyMode: true,
+                    debug: false
+                });
                 hls.loadSource(streamUrl);
                 hls.attachMedia(video);
                 hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                    // إعادة تعيين عدد المحاولات
+                    retryCount = 0;
+                    clearTimeout(retryTimeout);
+                    loading.style.display = 'none';
+                    video.style.display = 'block';
                     video.play().catch(error => {
                         console.error('خطأ في تشغيل البث:', error);
-                        video.style.display = 'none';
-                        fallback.style.display = 'block';
+                        handleStreamError();
                     });
+                    // تحديث قائمة الجودة
+                    updateQualityOptions();
+                });
+                hls.on(Hls.Events.BUFFER_APPENDED, () => {
+                    const buffered = video.buffered.length ? video.buffered.end(0) : 0;
+                    const duration = video.duration || 100;
+                    progressBar.style.width = `${(buffered / duration) * 100}%`;
                 });
                 hls.on(Hls.Events.ERROR, (event, data) => {
                     console.error('خطأ في البث:', data);
-                    video.style.display = 'none';
-                    fallback.style.display = 'block';
+                    if (data.fatal) {
+                        switch (data.type) {
+                            case Hls.ErrorTypes.NETWORK_ERROR:
+                                console.error('خطأ شبكة، جارٍ المحاولة مجددًا...');
+                                handleStreamError();
+                                break;
+                            case Hls.ErrorTypes.MEDIA_ERROR:
+                                console.error('خطأ في الوسائط، جارٍ التعافي...');
+                                hls.recoverMediaError();
+                                setTimeout(() => {
+                                    if (!video.videoWidth) {
+                                        handleStreamError();
+                                    }
+                                }, 1000);
+                                break;
+                            default:
+                                handleStreamError();
+                                break;
+                        }
+                    } else {
+                        showNotification('مشكلة مؤقتة في البث، جارٍ المحاولة...');
+                    }
+                });
+                hls.on(Hls.Events.LEVEL_LOADING, () => {
+                    loading.style.display = 'block';
+                });
+                hls.on(Hls.Events.LEVEL_LOADED, () => {
+                    loading.style.display = 'none';
+                });
+                // فحص توقف البث
+                video.addEventListener('stalled', () => {
+                    console.warn('البث متوقف، جارٍ إعادة المحاولة...');
+                    showNotification('البث متوقف، جارٍ إعادة التحميل...');
+                    handleStreamError();
+                });
+                // فحص أخطاء الفيديو
+                video.addEventListener('error', () => {
+                    console.error('خطأ في الفيديو');
+                    handleStreamError();
+                });
+                // فحص وجود بيانات الفيديو
+                video.addEventListener('loadedmetadata', () => {
+                    if (!video.videoWidth || !video.videoHeight) {
+                        console.error('لا توجد بيانات فيديو');
+                        handleStreamError('فشل تحميل الفيديو، الصوت فقط متاح');
+                    }
+                });
+                // تحديث حالة التشغيل
+                video.addEventListener('play', () => {
+                    document.getElementById('playPauseBtn').querySelector('i').classList.replace('fa-play', 'fa-pause');
+                });
+                video.addEventListener('pause', () => {
+                    document.getElementById('playPauseBtn').querySelector('i').classList.replace('fa-pause', 'fa-play');
                 });
             } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
                 video.src = streamUrl;
                 video.play().catch(error => {
                     console.error('خطأ في تشغيل البث:', error);
-                    video.style.display = 'none';
-                    fallback.style.display = 'block';
+                    handleStreamError();
+                });
+                video.addEventListener('stalled', () => {
+                    console.warn('البث متوقف');
+                    showNotification('البث متوقف، جارٍ إعادة التحميل...');
+                    handleStreamError();
+                });
+                video.addEventListener('error', () => {
+                    console.error('خطأ في الفيديو');
+                    handleStreamError();
+                });
+                video.addEventListener('loadedmetadata', () => {
+                    if (!video.videoWidth || !video.videoHeight) {
+                        console.error('لا توجد بيانات فيديو');
+                        handleStreamError('فشل تحميل الفيديو، الصوت فقط متاح');
+                    }
+                });
+                video.addEventListener('play', () => {
+                    document.getElementById('playPauseBtn').querySelector('i').classList.replace('fa-play', 'fa-pause');
+                });
+                video.addEventListener('pause', () => {
+                    document.getElementById('playPauseBtn').querySelector('i').classList.replace('fa-pause', 'fa-play');
                 });
             } else {
                 video.style.display = 'none';
                 fallback.style.display = 'block';
+                loading.style.display = 'none';
+                showNotification('المتصفح لا يدعم البث');
             }
+
+            // معالجة أخطاء البث
+            function handleStreamError(customMessage) {
+                if (retryCount < maxRetries) {
+                    retryCount++;
+                    showNotification(`تعذر التحقق من البث، المحاولة ${retryCount} من ${maxRetries}...`);
+                    clearTimeout(retryTimeout);
+                    retryTimeout = setTimeout(() => {
+                        retryStream();
+                    }, 2000); // تأخير 2 ثانية بين المحاولات
+                } else {
+                    video.style.display = 'none';
+                    fallback.style.display = 'block';
+                    loading.style.display = 'none';
+                    showNotification(customMessage || 'تعذر التحقق من البث بعد عدة محاولات');
+                    if (hls) {
+                        hls.destroy();
+                        hls = null;
+                    }
+                }
+            }
+
+            // تحديث قائمة الجودة
+            function updateQualityOptions() {
+                qualitySelect.innerHTML = '<option value="auto">تلقائي</option>';
+                if (hls && hls.levels) {
+                    hls.levels.forEach((level, index) => {
+                        const option = document.createElement('option');
+                        option.value = index;
+                        option.text = level.height ? `${level.height}p` : `مستوى ${index + 1}`;
+                        qualitySelect.appendChild(option);
+                    });
+                }
+            }
+        }
+
+        // إعادة تحميل البث
+        function retryStream() {
+            const video = document.getElementById('liveStreamVideo');
+            const fallback = document.getElementById('liveStreamFallback');
+            const loading = document.getElementById('streamLoading');
+            video.style.display = 'none';
+            fallback.style.display = 'none';
+            loading.style.display = 'block';
+            if (hls) {
+                hls.destroy();
+                hls = null;
+            }
+            setupLiveStream();
+        }
+
+        // إعداد أزرار التحكم
+        function setupControls() {
+            const video = document.getElementById('liveStreamVideo');
+            const playPauseBtn = document.getElementById('playPauseBtn');
+            const muteBtn = document.getElementById('muteBtn');
+            const fullscreenBtn = document.getElementById('fullscreenBtn');
+            const refreshBtn = document.getElementById('refreshBtn');
+            const qualitySelect = document.getElementById('qualitySelect');
+
+            // تشغيل/إيقاف مؤقت
+            playPauseBtn.addEventListener('click', () => {
+                if (video.paused) {
+                    video.play().then(() => {
+                        playPauseBtn.querySelector('i').classList.replace('fa-play', 'fa-pause');
+                        showNotification('تم تشغيل البث');
+                    }).catch(error => {
+                        console.error('خطأ في تشغيل الفيديو:', error);
+                        showNotification('فشل تشغيل البث، حاول إعادة التحميل');
+                    });
+                } else {
+                    video.pause();
+                    playPauseBtn.querySelector('i').classList.replace('fa-pause', 'fa-play');
+                    showNotification('تم إيقاف البث مؤقتًا');
+                }
+            });
+
+            // إيقاف/تشغيل الصوت
+            muteBtn.addEventListener('click', () => {
+                video.muted = !video.muted;
+                muteBtn.querySelector('i').classList.toggle('fa-volume-up', !video.muted);
+                muteBtn.querySelector('i').classList.toggle('fa-volume-mute', video.muted);
+                showNotification(video.muted ? 'تم إيقاف الصوت' : 'تم تشغيل الصوت');
+            });
+
+            // تكبير/تصغير الشاشة
+            fullscreenBtn.addEventListener('click', () => {
+                const videoContainer = document.querySelector('.live-stream-container');
+                if (!document.fullscreenElement) {
+                    videoContainer.requestFullscreen().then(() => {
+                        fullscreenBtn.querySelector('i').classList.replace('fa-expand', 'fa-compress');
+                        showNotification('تم تفعيل الشاشة الكاملة');
+                    }).catch(err => {
+                        console.error('خطأ في تكبير الشاشة:', err);
+                        showNotification('فشل تفعيل الشاشة الكاملة');
+                    });
+                } else {
+                    document.exitFullscreen().then(() => {
+                        fullscreenBtn.querySelector('i').classList.replace('fa-compress', 'fa-expand');
+                        showNotification('تم إلغاء الشاشة الكاملة');
+                    }).catch(err => {
+                        console.error('خطأ في إلغاء الشاشة الكاملة:', err);
+                    });
+                }
+            });
+
+            // تحديث أيقونة الشاشة الكاملة
+            document.addEventListener('fullscreenchange', () => {
+                if (!document.fullscreenElement) {
+                    fullscreenBtn.querySelector('i').classList.replace('fa-compress', 'fa-expand');
+                } else {
+                    fullscreenBtn.querySelector('i').classList.replace('fa-expand', 'fa-compress');
+                }
+            });
+
+            // إعادة تحميل البث
+            refreshBtn.addEventListener('click', () => {
+                retryCount = 0; // إعادة تعيين المحاولات
+                retryStream();
+                showNotification('جارٍ إعادة تحميل البث...');
+            });
+
+            // تغيير الجودة
+            qualitySelect.addEventListener('change', (e) => {
+                const level = e.target.value;
+                if (hls) {
+                    hls.currentLevel = level === 'auto' ? -1 : parseInt(level);
+                    showNotification(`تم تغيير الجودة إلى ${e.target.options[e.target.selectedIndex].text}`);
+                } else {
+                    showNotification('تغيير الجودة غير متاح حاليًا');
+                }
+            });
         }
 
         // عرض المزيد من الاقتباسات
         const moreQuotes = [
-            {
-                text: "إن الله يحب إذا عمل أحدكم عملاً أن يتقنه",
-                source: "- حديث شريف"
-            },
-            {
-                text: "خير الناس أنفعهم للناس",
-                source: "- حديث شريف"
-            },
-            {
-                text: "من يرد الله به خيرًا يفقهه في الدين",
-                source: "- حديث شريف"
-            }
+            { text: "إن الله يحب إذا عمل أحدكم عملاً أن يتقنه", source: "- حديث شريف" },
+            { text: "خير الناس أنفعهم للناس", source: "- حديث شريف" },
+            { text: "من يرد الله به خيرًا يفقهه في الدين", source: "- حديث شريف" }
         ];
 
         document.getElementById('showMoreQuotes').addEventListener('click', function() {
@@ -949,6 +1379,21 @@
                 grid.appendChild(card);
             });
             this.style.display = 'none';
+        });
+
+        // تهيئة الموقع
+        window.addEventListener('load', () => {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            setTimeout(() => {
+                loadingOverlay.classList.add('hidden');
+                setTimeout(() => {
+                    loadingOverlay.style.display = 'none';
+                }, 500);
+            }, 1500);
+            loadTheme();
+            showWelcome();
+            setupLiveStream();
+            setupControls();
         });
     </script>
 </body>
