@@ -1076,27 +1076,7 @@
     <section class="quotes-section" data-aos="fade-up" data-aos-delay="400">
         <h2>اقتباسات ملهمة</h2>
         <div class="quotes-grid" id="quotesGrid">
-            <div class="quote-card">
-                <p>"الخير فيّ وفي أمتي إلى يوم القيامة"</p>
-                <span>- حديث شريف</span>
-                <button class="share-btn" title="مشاركة الاقتباس" onclick="shareQuote(this)">
-                    <i class="fas fa-share-alt"></i> مشاركة
-                </button>
-            </div>
-            <div class="quote-card">
-                <p>"من سن في الإسلام سنة حسنة فله أجرها وأجر من عمل بها"</p>
-                <span>- حديث شريف</span>
-                <button class="share-btn" title="مشاركة الاقتباس" onclick="shareQuote(this)">
-                    <i class="fas fa-share-alt"></i> مشاركة
-                </button>
-            </div>
-            <div class="quote-card">
-                <p>"كن في الدنيا كأنك غريب أو عابر سبيل"</p>
-                <span>- حديث شريف</span>
-                <button class="share-btn" title="مشاركة الاقتباس" onclick="shareQuote(this)">
-                    <i class="fas fa-share-alt"></i> مشاركة
-                </button>
-            </div>
+            <!-- سيتم ملء الاقتباسات ديناميكيًا بواسطة JavaScript -->
         </div>
         <button id="showMoreQuotes" class="show-more-btn">عرض المزيد</button>
     </section>
@@ -1178,18 +1158,55 @@
             }, 3000);
         }
 
+        // قائمة الاقتباسات الثابتة
+        const quotesList = [
+            { text: "العلم نور يضيء دروب الحياة", source: "ابن خلدون" },
+            { text: "الصبر مفتاح الفرج", source: "مثل عربي" },
+            { text: "من جد وجد", source: "حكمة شعبية" },
+            { text: "التفاؤل يفتح أبواب الأمل", source: "حكمة معاصرة" },
+            { text: "العمل الجاد يصنع المعجزات", source: "مثل شعبي" },
+            { text: "الخير في النية الصادقة", source: "حكمة إسلامية" }
+        ];
+
+        let displayedQuotes = 0;
+        const quotesPerPage = 3;
+
+        // عرض الاقتباسات في الصفحة
+        function displayQuotes() {
+            const quotesGrid = document.getElementById('quotesGrid');
+            quotesGrid.innerHTML = ''; // إفراغ الشبكة
+
+            const quotesToShow = quotesList.slice(displayedQuotes, displayedQuotes + quotesPerPage);
+            quotesToShow.forEach((quote, index) => {
+                const card = document.createElement('div');
+                card.classList.add('quote-card');
+                card.style.animationDelay = `${(index + 1) * 0.1}s`;
+                card.innerHTML = `
+                    <p>"${quote.text}"</p>
+                    <span>- ${quote.source}</span>
+                    <button class="share-btn" title="مشاركة الاقتباس" onclick="shareQuote(this)">
+                        <i class="fas fa-share-alt"></i> مشاركة
+                    </button>
+                `;
+                quotesGrid.appendChild(card);
+            });
+
+            displayedQuotes += quotesToShow.length;
+            document.getElementById('showMoreQuotes').style.display = displayedQuotes >= quotesList.length ? 'none' : 'block';
+            AOS.refresh();
+        }
+
         // مشاركة الاقتباس
         function shareQuote(button) {
             const quoteCard = button.closest('.quote-card');
             const quoteText = quoteCard.querySelector('p').textContent;
             const quoteSource = quoteCard.querySelector('span').textContent;
-            const shareText = `${quoteText}\n${quoteSource}\nالمصدر: فريق المحراب\nhttps://almihrab.example.com`;
+            const shareText = `🌟 اقتباس ملهم 🌟\n${quoteText}\n${quoteSource}\nالمصدر: فريق المحراب | https://bit.ly/42IG4XQ`;
 
             if (navigator.share) {
                 navigator.share({
                     title: 'اقتباس من المحراب',
-                    text: shareText,
-                    url: 'https://almihrab.example.com'
+                    text: shareText
                 }).then(() => {
                     showNotification('تمت المشاركة بنجاح!');
                 }).catch(err => {
@@ -1207,29 +1224,28 @@
         }
 
         // عرض المزيد من الاقتباسات
-        const moreQuotes = [
-            { text: "إن الله يحب إذا عمل أحدكم عملاً أن يتقنه", source: "- حديث شريف" },
-            { text: "خير الناس أنفعهم للناس", source: "- حديث شريف" },
-            { text: "من يرد الله به خيرًا يفقهه في الدين", source: "- حديث شريف" }
-        ];
-
-        document.getElementById('showMoreQuotes').addEventListener('click', function() {
-            const grid = document.getElementById('quotesGrid');
-            moreQuotes.forEach(quote => {
+        function showMoreQuotes() {
+            const quotesGrid = document.getElementById('quotesGrid');
+            const quotesToShow = quotesList.slice(displayedQuotes, displayedQuotes + quotesPerPage);
+            quotesToShow.forEach((quote, index) => {
                 const card = document.createElement('div');
                 card.classList.add('quote-card');
+                card.style.animationDelay = `${(index + 1) * 0.1}s`;
                 card.innerHTML = `
                     <p>"${quote.text}"</p>
-                    <span>${quote.source}</span>
+                    <span>- ${quote.source}</span>
                     <button class="share-btn" title="مشاركة الاقتباس" onclick="shareQuote(this)">
                         <i class="fas fa-share-alt"></i> مشاركة
                     </button>
                 `;
-                grid.appendChild(card);
+                quotesGrid.appendChild(card);
             });
-            this.style.display = 'none';
+            displayedQuotes += quotesToShow.length;
+            document.getElementById('showMoreQuotes').style.display = displayedQuotes >= quotesList.length ? 'none' : 'block';
             AOS.refresh();
-        });
+        }
+
+        document.getElementById('showMoreQuotes').addEventListener('click', showMoreQuotes);
 
         // إعداد البث المباشر
         let hls = null;
@@ -1507,6 +1523,7 @@
             showWelcome();
             setupLiveStream();
             setupControls();
+            displayQuotes();
         });
     </script>
 </body>
