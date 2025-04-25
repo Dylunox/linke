@@ -42,20 +42,21 @@
             color: #e0e0e0;
         }
 
-        /* شاشة التحميل */
+        /* تحسين شاشة التحميل */
         .loading-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #1e3a8a, #6b7280);
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 10001;
             opacity: 1;
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transition: opacity 0.7s ease, transform 0.7s ease;
         }
 
         .loading-overlay.hidden {
@@ -64,24 +65,25 @@
             pointer-events: none;
         }
 
-        .loading-particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
-            animation: particlesMove 10s linear infinite;
+        .loading-logo {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+            animation: bounce 1.5s ease-in-out infinite;
+            border-radius: 15px;
         }
 
-        @keyframes particlesMove {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-100%, -100%); }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
         }
 
         .loading-text {
             font-family: 'Amiri', serif;
             font-weight: 700;
-            font-size: 2rem;
+            font-size: 2.2rem;
             color: #ffffff;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
             opacity: 0;
             animation: fadeInText 1.5s ease-in-out forwards;
         }
@@ -89,6 +91,21 @@
         @keyframes fadeInText {
             0% { opacity: 0; transform: translateY(20px); }
             100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top: 5px solid #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-top: 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* شريط التنقل */
@@ -432,10 +449,9 @@
             width: 100%;
             height: 100%;
             border: none;
-            display: none; /* إخفاء الفيديو مبدئيًا */
+            display: none;
         }
 
-        /* تأثير التحميل */
         .live-stream-loading {
             position: absolute;
             top: 50%;
@@ -451,12 +467,6 @@
             animation: spin 1s linear infinite;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* شريط التحكم */
         .live-stream-controls {
             display: flex;
             justify-content: center;
@@ -515,7 +525,6 @@
             transform: scale(1.1);
         }
 
-        /* قائمة الجودة */
         .quality-select {
             background: linear-gradient(135deg, #1e3a8a, #3b82f6);
             border: none;
@@ -533,7 +542,6 @@
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
         }
 
-        /* شريط التقدم */
         .progress-bar-container {
             width: 100%;
             height: 5px;
@@ -554,25 +562,32 @@
             background: #4b5563;
         }
 
-        /* الإشعارات */
         .notification {
             position: fixed;
             bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            right: 20px;
+            background: #10b981;
             color: #ffffff;
-            padding: 10px 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             opacity: 0;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            z-index: 1000;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+            transform: translateY(20px);
+            z-index: 10002;
+            font-size: 1rem;
+            font-weight: 500;
         }
 
         .notification.show {
             opacity: 1;
-            transform: translateX(-50%) translateY(-10px);
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        body.dark-mode .notification {
+            background: #34d399;
         }
 
         .live-stream-fallback {
@@ -738,6 +753,57 @@
             color: #9ca3af;
         }
 
+        .share-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            border: none;
+            color: #ffffff;
+            padding: 8px 15px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+            transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .share-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.3s ease;
+        }
+
+        .share-btn:hover::before {
+            left: 0;
+        }
+
+        .share-btn:hover {
+            background: linear-gradient(135deg, #059669, #10b981);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .share-btn i {
+            font-size: 1.1rem;
+        }
+
+        body.dark-mode .share-btn {
+            background: linear-gradient(135deg, #34d399, #10b981);
+        }
+
+        body.dark-mode .share-btn:hover {
+            background: linear-gradient(135deg, #10b981, #34d399);
+        }
+
         .show-more-btn {
             background: linear-gradient(135deg, #1e3a8a, #3b82f6);
             color: #ffffff;
@@ -822,7 +888,17 @@
             }
 
             .loading-text {
-                font-size: 1.5rem;
+                font-size: 1.8rem;
+            }
+
+            .loading-logo {
+                width: 80px;
+                height: 80px;
+            }
+
+            .loading-spinner {
+                width: 40px;
+                height: 40px;
             }
 
             .welcome-message {
@@ -871,7 +947,17 @@
             }
 
             .loading-text {
-                font-size: 1.3rem;
+                font-size: 1.5rem;
+            }
+
+            .loading-logo {
+                width: 60px;
+                height: 60px;
+            }
+
+            .loading-spinner {
+                width: 30px;
+                height: 30px;
             }
 
             .control-btn {
@@ -893,8 +979,9 @@
 <body>
     <!-- شاشة التحميل -->
     <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-particles"></div>
+        <img src="https://i.postimg.cc/GhG5z454/IMG-3129.png" alt="شعار المحراب" class="loading-logo">
         <div class="loading-text">مع المحراب... الخير يبدأ</div>
+        <div class="loading-spinner"></div>
     </div>
 
     <!-- خلفية متحركة -->
@@ -992,14 +1079,23 @@
             <div class="quote-card">
                 <p>"الخير فيّ وفي أمتي إلى يوم القيامة"</p>
                 <span>- حديث شريف</span>
+                <button class="share-btn" title="مشاركة الاقتباس" onclick="shareQuote(this)">
+                    <i class="fas fa-share-alt"></i> مشاركة
+                </button>
             </div>
             <div class="quote-card">
                 <p>"من سن في الإسلام سنة حسنة فله أجرها وأجر من عمل بها"</p>
                 <span>- حديث شريف</span>
+                <button class="share-btn" title="مشاركة الاقتباس" onclick="shareQuote(this)">
+                    <i class="fas fa-share-alt"></i> مشاركة
+                </button>
             </div>
             <div class="quote-card">
                 <p>"كن في الدنيا كأنك غريب أو عابر سبيل"</p>
                 <span>- حديث شريف</span>
+                <button class="share-btn" title="مشاركة الاقتباس" onclick="shareQuote(this)">
+                    <i class="fas fa-share-alt"></i> مشاركة
+                </button>
             </div>
         </div>
         <button id="showMoreQuotes" class="show-more-btn">عرض المزيد</button>
@@ -1015,7 +1111,7 @@
         </div>
     </footer>
 
-    <!-- الإشعارات -->
+    <!-- الإشعارات المؤقتة -->
     <div class="notification" id="notification"></div>
 
     <!-- مكتبة AOS -->
@@ -1072,7 +1168,7 @@
             }
         }
 
-        // عرض الإشعارات
+        // عرض الإشعارات المؤقتة
         function showNotification(message) {
             const notification = document.getElementById('notification');
             notification.textContent = message;
@@ -1081,6 +1177,59 @@
                 notification.classList.remove('show');
             }, 3000);
         }
+
+        // مشاركة الاقتباس
+        function shareQuote(button) {
+            const quoteCard = button.closest('.quote-card');
+            const quoteText = quoteCard.querySelector('p').textContent;
+            const quoteSource = quoteCard.querySelector('span').textContent;
+            const shareText = `${quoteText}\n${quoteSource}\nالمصدر: فريق المحراب\nhttps://almihrab.example.com`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: 'اقتباس من المحراب',
+                    text: shareText,
+                    url: 'https://almihrab.example.com'
+                }).then(() => {
+                    showNotification('تمت المشاركة بنجاح!');
+                }).catch(err => {
+                    console.error('خطأ في المشاركة:', err);
+                    showNotification('حدث خطأ أثناء المشاركة');
+                });
+            } else {
+                navigator.clipboard.writeText(shareText).then(() => {
+                    showNotification('تم نسخ الاقتباس إلى الحافظة!');
+                }).catch(err => {
+                    console.error('خطأ في النسخ:', err);
+                    showNotification('حدث خطأ أثناء النسخ');
+                });
+            }
+        }
+
+        // عرض المزيد من الاقتباسات
+        const moreQuotes = [
+            { text: "إن الله يحب إذا عمل أحدكم عملاً أن يتقنه", source: "- حديث شريف" },
+            { text: "خير الناس أنفعهم للناس", source: "- حديث شريف" },
+            { text: "من يرد الله به خيرًا يفقهه في الدين", source: "- حديث شريف" }
+        ];
+
+        document.getElementById('showMoreQuotes').addEventListener('click', function() {
+            const grid = document.getElementById('quotesGrid');
+            moreQuotes.forEach(quote => {
+                const card = document.createElement('div');
+                card.classList.add('quote-card');
+                card.innerHTML = `
+                    <p>"${quote.text}"</p>
+                    <span>${quote.source}</span>
+                    <button class="share-btn" title="مشاركة الاقتباس" onclick="shareQuote(this)">
+                        <i class="fas fa-share-alt"></i> مشاركة
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+            this.style.display = 'none';
+            AOS.refresh();
+        });
 
         // إعداد البث المباشر
         let hls = null;
@@ -1096,12 +1245,10 @@
             const qualitySelect = document.getElementById('qualitySelect');
             const streamUrl = 'https://jmc-live.ercdn.net/alistiqama/alistiqama.m3u8';
 
-            // إخفاء الفيديو والفوتر مبدئيًا
             video.style.display = 'none';
             fallback.style.display = 'none';
             loading.style.display = 'block';
 
-            // فحص توافق الفيديو
             if (!video.canPlayType('video/mp2t') && !Hls.isSupported()) {
                 video.style.display = 'none';
                 fallback.style.display = 'block';
@@ -1123,7 +1270,6 @@
                 hls.loadSource(streamUrl);
                 hls.attachMedia(video);
                 hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                    // إعادة تعيين عدد المحاولات
                     retryCount = 0;
                     clearTimeout(retryTimeout);
                     loading.style.display = 'none';
@@ -1132,7 +1278,6 @@
                         console.error('خطأ في تشغيل البث:', error);
                         handleStreamError();
                     });
-                    // تحديث قائمة الجودة
                     updateQualityOptions();
                 });
                 hls.on(Hls.Events.BUFFER_APPENDED, () => {
@@ -1171,25 +1316,21 @@
                 hls.on(Hls.Events.LEVEL_LOADED, () => {
                     loading.style.display = 'none';
                 });
-                // فحص توقف البث
                 video.addEventListener('stalled', () => {
                     console.warn('البث متوقف، جارٍ إعادة المحاولة...');
                     showNotification('البث متوقف، جارٍ إعادة التحميل...');
                     handleStreamError();
                 });
-                // فحص أخطاء الفيديو
                 video.addEventListener('error', () => {
                     console.error('خطأ في الفيديو');
                     handleStreamError();
                 });
-                // فحص وجود بيانات الفيديو
                 video.addEventListener('loadedmetadata', () => {
                     if (!video.videoWidth || !video.videoHeight) {
                         console.error('لا توجد بيانات فيديو');
                         handleStreamError('فشل تحميل الفيديو، الصوت فقط متاح');
                     }
                 });
-                // تحديث حالة التشغيل
                 video.addEventListener('play', () => {
                     document.getElementById('playPauseBtn').querySelector('i').classList.replace('fa-play', 'fa-pause');
                 });
@@ -1230,7 +1371,6 @@
                 showNotification('المتصفح لا يدعم البث');
             }
 
-            // معالجة أخطاء البث
             function handleStreamError(customMessage) {
                 if (retryCount < maxRetries) {
                     retryCount++;
@@ -1238,7 +1378,7 @@
                     clearTimeout(retryTimeout);
                     retryTimeout = setTimeout(() => {
                         retryStream();
-                    }, 2000); // تأخير 2 ثانية بين المحاولات
+                    }, 2000);
                 } else {
                     video.style.display = 'none';
                     fallback.style.display = 'block';
@@ -1251,7 +1391,6 @@
                 }
             }
 
-            // تحديث قائمة الجودة
             function updateQualityOptions() {
                 qualitySelect.innerHTML = '<option value="auto">تلقائي</option>';
                 if (hls && hls.levels) {
@@ -1265,7 +1404,6 @@
             }
         }
 
-        // إعادة تحميل البث
         function retryStream() {
             const video = document.getElementById('liveStreamVideo');
             const fallback = document.getElementById('liveStreamFallback');
@@ -1280,7 +1418,6 @@
             setupLiveStream();
         }
 
-        // إعداد أزرار التحكم
         function setupControls() {
             const video = document.getElementById('liveStreamVideo');
             const playPauseBtn = document.getElementById('playPauseBtn');
@@ -1289,7 +1426,6 @@
             const refreshBtn = document.getElementById('refreshBtn');
             const qualitySelect = document.getElementById('qualitySelect');
 
-            // تشغيل/إيقاف مؤقت
             playPauseBtn.addEventListener('click', () => {
                 if (video.paused) {
                     video.play().then(() => {
@@ -1306,7 +1442,6 @@
                 }
             });
 
-            // إيقاف/تشغيل الصوت
             muteBtn.addEventListener('click', () => {
                 video.muted = !video.muted;
                 muteBtn.querySelector('i').classList.toggle('fa-volume-up', !video.muted);
@@ -1314,7 +1449,6 @@
                 showNotification(video.muted ? 'تم إيقاف الصوت' : 'تم تشغيل الصوت');
             });
 
-            // تكبير/تصغير الشاشة
             fullscreenBtn.addEventListener('click', () => {
                 const videoContainer = document.querySelector('.live-stream-container');
                 if (!document.fullscreenElement) {
@@ -1335,7 +1469,6 @@
                 }
             });
 
-            // تحديث أيقونة الشاشة الكاملة
             document.addEventListener('fullscreenchange', () => {
                 if (!document.fullscreenElement) {
                     fullscreenBtn.querySelector('i').classList.replace('fa-compress', 'fa-expand');
@@ -1344,14 +1477,12 @@
                 }
             });
 
-            // إعادة تحميل البث
             refreshBtn.addEventListener('click', () => {
-                retryCount = 0; // إعادة تعيين المحاولات
+                retryCount = 0;
                 retryStream();
                 showNotification('جارٍ إعادة تحميل البث...');
             });
 
-            // تغيير الجودة
             qualitySelect.addEventListener('change', (e) => {
                 const level = e.target.value;
                 if (hls) {
@@ -1362,24 +1493,6 @@
                 }
             });
         }
-
-        // عرض المزيد من الاقتباسات
-        const moreQuotes = [
-            { text: "إن الله يحب إذا عمل أحدكم عملاً أن يتقنه", source: "- حديث شريف" },
-            { text: "خير الناس أنفعهم للناس", source: "- حديث شريف" },
-            { text: "من يرد الله به خيرًا يفقهه في الدين", source: "- حديث شريف" }
-        ];
-
-        document.getElementById('showMoreQuotes').addEventListener('click', function() {
-            const grid = document.getElementById('quotesGrid');
-            moreQuotes.forEach(quote => {
-                const card = document.createElement('div');
-                card.classList.add('quote-card');
-                card.innerHTML = `<p>"${quote.text}"</p><span>${quote.source}</span>`;
-                grid.appendChild(card);
-            });
-            this.style.display = 'none';
-        });
 
         // تهيئة الموقع
         window.addEventListener('load', () => {
