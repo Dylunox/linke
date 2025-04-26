@@ -9,18 +9,26 @@
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#1e3a8a">
     <title>المحراب | منصة الخير والمعرفة</title>
-    <!-- Font Awesome للأيقونات -->
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/GhG5z454/IMG-3129.png">
+
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- خطوط جوجل (Amiri وCairo) -->
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;700&display=swap" rel="stylesheet">
-    <!-- مكتبة AOS للتأثيرات -->
+
+    <!-- AOS Library -->
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-    <!-- مكتبة hls.js لدعم بث HLS -->
+
+    <!-- HLS.js -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
     <style>
-        /* إعادة تعيين التنسيقات */
+        /* Reset Styles */
         * {
             margin: 0;
             padding: 0;
@@ -42,7 +50,7 @@
             color: #e0e0e0;
         }
 
-        /* تحسين شاشة التحميل */
+        /* Loading Overlay */
         .loading-overlay {
             position: fixed;
             top: 0;
@@ -56,12 +64,11 @@
             align-items: center;
             z-index: 10001;
             opacity: 1;
-            transition: opacity 0.7s ease, transform 0.7s ease;
+            transition: opacity 0.7s ease;
         }
 
         .loading-overlay.hidden {
             opacity: 0;
-            transform: scale(1.1);
             pointer-events: none;
         }
 
@@ -84,13 +91,6 @@
             font-size: 2.2rem;
             color: #ffffff;
             text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-            opacity: 0;
-            animation: fadeInText 1.5s ease-in-out forwards;
-        }
-
-        @keyframes fadeInText {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
         }
 
         .loading-spinner {
@@ -108,7 +108,7 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* شريط التنقل */
+        /* Navbar */
         .navbar {
             position: fixed;
             top: 0;
@@ -127,17 +127,114 @@
             font-size: 2rem;
             color: #ffffff;
             text-decoration: none;
-            background: linear-gradient(135deg, #ffffff, #93c5fd);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            transition: transform 0.3s ease, text-shadow 0.3s ease;
+            transition: transform 0.3s ease;
         }
 
         .navbar .logo:hover {
             transform: scale(1.05);
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
+        /* Burger Menu */
+        .burger-menu {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 35px;
+            height: 30px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1002;
+        }
+
+        .burger-menu span {
+            width: 100%;
+            height: 4px;
+            background: #ffffff;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .burger-menu.active span:nth-child(1) {
+            transform: rotate(45deg) translate(10px, 10px);
+        }
+
+        .burger-menu.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .burger-menu.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(10px, -10px);
+        }
+
+        .nav-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 250px;
+            height: 100%;
+            background: #1e3a8a; /* خلفية صلبة بدون شفافية */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 80px;
+            transition: right 0.5s ease;
+            z-index: 1001;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-menu.active {
+            right: 0;
+        }
+
+        .nav-menu a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 15px 0;
+            padding: 10px 20px;
+            width: 80%;
+            text-align: center;
+            border-radius: 10px;
+            transition: background 0.3s ease, transform 0.3s ease;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4); /* ظل نصي لتحسين الوضوح */
+        }
+
+        .nav-menu a:hover {
+            background: #3b82f6;
+            transform: translateX(-5px);
+        }
+
+        .nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7); /* خلفية أغمق لتقليل التداخل البصري */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .nav-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        body.dark-mode .nav-menu {
+            background: #1e3a8a; /* نفس اللون الصلب في الوضع الداكن */
+        }
+
+        body.dark-mode .nav-menu a {
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Theme Toggle */
         .theme-toggle {
             background: linear-gradient(135deg, #3b82f6, #1e3a8a);
             border: none;
@@ -165,7 +262,46 @@
             background: rgba(17, 24, 39, 0.95);
         }
 
-        /* شاشة الترحيب */
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: #ffffff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+        }
+
+        .back-to-top i {
+            font-size: 1.5rem;
+        }
+
+        body.dark-mode .back-to-top {
+            background: linear-gradient(135deg, #60a5fa, #1e3a8a);
+        }
+
+        /* Welcome Overlay */
         .welcome-overlay {
             position: fixed;
             top: 0;
@@ -193,7 +329,6 @@
             text-align: center;
             max-width: 500px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            animation: fadeIn 0.8s ease-in-out;
         }
 
         .welcome-message h2 {
@@ -201,12 +336,14 @@
             font-size: 2rem;
             color: #1e3a8a;
             margin-bottom: 15px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
         }
 
         .welcome-message p {
             font-size: 1.2rem;
             color: #4b5563;
             margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         .close-welcome {
@@ -218,16 +355,12 @@
             font-size: 1.1rem;
             cursor: pointer;
             transition: transform 0.3s ease, background 0.3s ease;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         .close-welcome:hover {
             background: linear-gradient(135deg, #3b82f6, #1e3a8a);
             transform: scale(1.05);
-        }
-
-        @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
         }
 
         body.dark-mode .welcome-message {
@@ -236,13 +369,93 @@
 
         body.dark-mode .welcome-message h2 {
             color: #60a5fa;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
         }
 
         body.dark-mode .welcome-message p {
             color: #d1d5db;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
         }
 
-        /* الخلفية المتحركة */
+        /* Fatwa Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10002;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-content h2 {
+            font-family: 'Amiri', serif;
+            font-size: 2rem;
+            color: #1e3a8a;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-content p {
+            font-size: 1.2rem;
+            color: #4b5563;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-close {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, background 0.3s ease;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-close:hover {
+            background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+            transform: scale(1.05);
+        }
+
+        body.dark-mode .modal-content {
+            background: #1f2937;
+        }
+
+        body.dark-mode .modal-content h2 {
+            color: #60a5fa;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+        }
+
+        body.dark-mode .modal-content p {
+            color: #d1d5db;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Background Animation */
         .background-animation {
             position: fixed;
             top: 0;
@@ -251,38 +464,22 @@
             height: 100%;
             z-index: -1;
             background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-            overflow: hidden;
-        }
-
-        .background-animation::before {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 10%, transparent 10%);
-            background-size: 50px 50px;
-            animation: moveBackground 20s linear infinite;
-        }
-
-        @keyframes moveBackground {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-50%, -50%); }
+            opacity: 0.5;
         }
 
         body.dark-mode .background-animation {
             background: linear-gradient(135deg, #1e1e2e, #1a2337);
         }
 
-        body.dark-mode .background-animation::before {
-            background: radial-gradient(circle, rgba(255,255,255,0.05) 10%, transparent 10%);
-        }
-
-        /* القسم الرئيسي */
+        /* Hero Section */
         .hero {
             max-width: 1200px;
             margin: 100px auto 50px;
             padding: 20px;
             text-align: center;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .hero img {
@@ -294,6 +491,11 @@
             border: 5px solid #1e3a8a;
             padding: 5px;
             background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            transition: transform 0.5s ease;
+        }
+
+        .hero img:hover {
+            transform: scale(1.1);
         }
 
         .hero h1 {
@@ -301,6 +503,7 @@
             font-size: 2.8rem;
             color: #1e3a8a;
             margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .hero p {
@@ -308,17 +511,24 @@
             color: #4b5563;
             max-width: 700px;
             margin: 0 auto 30px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-mode .hero {
+            background: rgba(31, 41, 55, 0.85);
         }
 
         body.dark-mode .hero h1 {
             color: #60a5fa;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
         }
 
         body.dark-mode .hero p {
             color: #d1d5db;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
         }
 
-        /* الروابط الاجتماعية */
+        /* Social Links */
         .social-links {
             display: flex;
             flex-wrap: wrap;
@@ -339,45 +549,24 @@
             align-items: center;
             gap: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            opacity: 0;
-            animation: fadeIn 0.5s ease-in-out forwards;
-        }
-
-        .social-links a:nth-child(1) { animation-delay: 0.1s; }
-        .social-links a:nth-child(2) { animation-delay: 0.2s; }
-        .social-links a:nth-child(3) { animation-delay: 0.3s; }
-        .social-links a:nth-child(4) { animation-delay: 0.4s; }
-
-        .social-links a::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.2);
-            transition: left 0.3s ease;
-        }
-
-        .social-links a:hover::before {
-            left: 0;
+            transition: transform 0.3s ease, background 0.3s ease;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         .social-links a:hover {
             background: linear-gradient(135deg, #3b82f6, #1e3a8a);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
             transform: translateY(-5px);
         }
 
-        /* قسم الفيديو */
+        /* Video Section */
         .video-section {
             max-width: 800px;
             margin: 50px auto;
             padding: 20px;
             text-align: center;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .video-container {
@@ -399,17 +588,23 @@
             border: none;
         }
 
+        body.dark-mode .video-section {
+            background: rgba(31, 41, 55, 0.85);
+        }
+
         body.dark-mode .video-container {
             background: #1f2937;
         }
 
-        /* قسم البث المباشر */
+        /* Live Stream Section */
         .live-stream-section {
             max-width: 800px;
             margin: 50px auto;
             padding: 20px;
             text-align: center;
-            position: relative;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .live-stream-section h2 {
@@ -417,19 +612,7 @@
             font-size: 2.5rem;
             color: #1e3a8a;
             margin-bottom: 2rem;
-            position: relative;
-        }
-
-        .live-stream-section h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background: linear-gradient(90deg, #1e3a8a, #3b82f6);
-            border-radius: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .live-stream-container {
@@ -452,13 +635,25 @@
             display: none;
         }
 
+        /* طبقة تغطية الفيديو لمنع التفاعل المباشر */
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0); /* شفافة تمامًا لعدم التأثير على العرض */
+            z-index: 5; /* فوق الفيديو ولكن تحت عنصر التحميل */
+            pointer-events: auto; /* تمنع التفاعل مع الفيديو */
+        }
+
         .live-stream-loading {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             display: block;
-            z-index: 10;
+            z-index: 10; /* فوق طبقة التغطية */
         }
 
         .live-stream-loading i {
@@ -476,7 +671,6 @@
             padding: 10px;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(5px);
         }
 
         body.dark-mode .live-stream-controls {
@@ -494,9 +688,7 @@
             justify-content: center;
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            transition: transform 0.3s ease, background 0.3s ease;
         }
 
         .control-btn i {
@@ -504,24 +696,8 @@
             color: #ffffff;
         }
 
-        .control-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.2);
-            transition: left 0.3s ease;
-        }
-
-        .control-btn:hover::before {
-            left: 0;
-        }
-
         .control-btn:hover {
             background: linear-gradient(135deg, #3b82f6, #1e3a8a);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
             transform: scale(1.1);
         }
 
@@ -534,12 +710,12 @@
             font-size: 1rem;
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         .quality-select:hover {
             transform: scale(1.05);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
         }
 
         .progress-bar-container {
@@ -562,34 +738,6 @@
             background: #4b5563;
         }
 
-        .notification {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #10b981;
-            color: #ffffff;
-            padding: 15px 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-            transform: translateY(20px);
-            z-index: 10002;
-            font-size: 1rem;
-            font-weight: 500;
-        }
-
-        .notification.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        body.dark-mode .notification {
-            background: #34d399;
-        }
-
         .live-stream-fallback {
             display: none;
             background: #ffffff;
@@ -604,6 +752,7 @@
             font-size: 1.2rem;
             color: #4b5563;
             margin-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         .live-stream-fallback a, .retry-btn {
@@ -616,6 +765,7 @@
             display: inline-block;
             margin: 10px 0;
             transition: background 0.3s ease, transform 0.3s ease;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         .retry-btn {
@@ -628,12 +778,13 @@
             transform: scale(1.05);
         }
 
-        body.dark-mode .live-stream-section h2 {
-            color: #60a5fa;
+        body.dark-mode .live-stream-section {
+            background: rgba(31, 41, 55, 0.85);
         }
 
-        body.dark-mode .live-stream-section h2::after {
-            background: linear-gradient(90deg, #60a5fa, #93c5fd);
+        body.dark-mode .live-stream-section h2 {
+            color: #60a5fa;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
         }
 
         body.dark-mode .live-stream-container,
@@ -643,14 +794,18 @@
 
         body.dark-mode .live-stream-fallback p {
             color: #d1d5db;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
         }
 
-        /* قسم الاقتباسات */
+        /* Quotes Section */
         .quotes-section {
             max-width: 1200px;
             margin: 3rem auto;
             padding: 20px;
             text-align: center;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .quotes-section h2 {
@@ -658,27 +813,16 @@
             font-size: 2.5rem;
             color: #1e3a8a;
             margin-bottom: 2.5rem;
-            position: relative;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
 
-        .quotes-section h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background: linear-gradient(90deg, #1e3a8a, #3b82f6);
-            border-radius: 2px;
+        body.dark-mode .quotes-section {
+            background: rgba(31, 41, 55, 0.85);
         }
 
         body.dark-mode .quotes-section h2 {
             color: #60a5fa;
-        }
-
-        body.dark-mode .quotes-section h2::after {
-            background: linear-gradient(90deg, #60a5fa, #93c5fd);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
         }
 
         .quotes-grid {
@@ -693,37 +837,11 @@
             border-radius: 20px;
             padding: 30px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            position: relative;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            overflow: hidden;
-            animation: slideUp 0.6s ease-in-out forwards;
+            transition: transform 0.3s ease;
         }
-
-        .quote-card:nth-child(1) { animation-delay: 0.1s; }
-        .quote-card:nth-child(2) { animation-delay: 0.2s; }
-        .quote-card:nth-child(3) { animation-delay: 0.3s; }
 
         .quote-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .quote-card::before {
-            content: '\f6c1';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            font-size: 3rem;
-            color: #1e3a8a;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0.1;
-        }
-
-        .quote-card p, .quote-card span {
-            position: relative;
-            z-index: 1;
         }
 
         .quote-card p {
@@ -732,25 +850,28 @@
             color: #1e3a8a;
             margin-bottom: 15px;
             line-height: 1.8;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         .quote-card span {
             font-size: 1rem;
             color: #6b7280;
             font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         body.dark-mode .quote-card {
             background: #1f2937;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         body.dark-mode .quote-card p {
             color: #93c5fd;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
         }
 
         body.dark-mode .quote-card span {
             color: #9ca3af;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
         }
 
         .share-btn {
@@ -766,42 +887,17 @@
             align-items: center;
             gap: 8px;
             margin-top: 15px;
-            transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .share-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.2);
-            transition: left 0.3s ease;
-        }
-
-        .share-btn:hover::before {
-            left: 0;
+            transition: background 0.3s ease, transform 0.3s ease;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         .share-btn:hover {
             background: linear-gradient(135deg, #059669, #10b981);
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .share-btn i {
             font-size: 1.1rem;
-        }
-
-        body.dark-mode .share-btn {
-            background: linear-gradient(135deg, #34d399, #10b981);
-        }
-
-        body.dark-mode .share-btn:hover {
-            background: linear-gradient(135deg, #10b981, #34d399);
         }
 
         .show-more-btn {
@@ -815,6 +911,7 @@
             cursor: pointer;
             margin-top: 2rem;
             transition: background 0.3s ease, transform 0.3s ease;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         .show-more-btn:hover {
@@ -822,12 +919,7 @@
             transform: scale(1.05);
         }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* الفوتر */
+        /* Footer */
         footer {
             background: #1e3a8a;
             color: #ffffff;
@@ -845,6 +937,7 @@
             text-decoration: none;
             margin: 0 15px;
             transition: color 0.3s ease;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         footer a:hover {
@@ -854,12 +947,51 @@
         footer p {
             margin-top: 1rem;
             font-size: 0.9rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
-        /* التوافق مع الأجهزة */
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #10b981;
+            color: #ffffff;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+            transform: translateY(20px);
+            z-index: 10003;
+            font-size: 1rem;
+            font-weight: 500;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .notification.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        body.dark-mode .notification {
+            background: #34d399;
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
             .navbar .logo {
                 font-size: 1.5rem;
+            }
+
+            .burger-menu {
+                display: flex;
+            }
+
+            .theme-toggle {
+                margin-left: 10px;
             }
 
             .hero h1 {
@@ -896,40 +1028,21 @@
                 height: 80px;
             }
 
-            .loading-spinner {
-                width: 40px;
-                height: 40px;
-            }
-
-            .welcome-message {
+            .welcome-message, .modal-content {
                 padding: 20px;
             }
 
-            .welcome-message h2 {
+            .welcome-message h2, .modal-content h2 {
                 font-size: 1.5rem;
-            }
-
-            .control-btn {
-                width: 40px;
-                height: 40px;
-            }
-
-            .control-btn i {
-                font-size: 1.2rem;
-            }
-
-            .quality-select {
-                width: 80px;
-                font-size: 0.9rem;
             }
         }
 
         @media (max-width: 480px) {
-            .welcome-message h2 {
+            .welcome-message h2, .modal-content h2 {
                 font-size: 1.8rem;
             }
 
-            .welcome-message p {
+            .welcome-message p, .modal-content p {
                 font-size: 1rem;
             }
 
@@ -945,57 +1058,47 @@
             .quote-card p {
                 font-size: 1.1rem;
             }
-
-            .loading-text {
-                font-size: 1.5rem;
-            }
-
-            .loading-logo {
-                width: 60px;
-                height: 60px;
-            }
-
-            .loading-spinner {
-                width: 30px;
-                height: 30px;
-            }
-
-            .control-btn {
-                width: 35px;
-                height: 35px;
-            }
-
-            .control-btn i {
-                font-size: 1rem;
-            }
-
-            .quality-select {
-                width: 70px;
-                font-size: 0.8rem;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- شاشة التحميل -->
+    <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
         <img src="https://i.postimg.cc/GhG5z454/IMG-3129.png" alt="شعار المحراب" class="loading-logo">
         <div class="loading-text">مع المحراب... الخير يبدأ</div>
         <div class="loading-spinner"></div>
     </div>
 
-    <!-- خلفية متحركة -->
+    <!-- Background Animation -->
     <div class="background-animation"></div>
 
-    <!-- شريط التنقل -->
+    <!-- Navbar -->
     <nav class="navbar">
+        <button class="burger-menu" id="burgerMenu" aria-label="فتح القائمة">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="nav-menu" id="navMenu">
+            <a href="#hero" onclick="closeNav()">الرئيسية</a>
+            <a href="#video-section" onclick="closeNav()">الفيديو</a>
+            <a href="#live-stream-section" onclick="closeNav()">البث المباشر</a>
+            <a href="#quotes-section" onclick="closeNav()">الاقتباسات</a>
+            <a href="#" onclick="showFatwaModal(); closeNav(); return false;">مكتبة الفتوى</a>
+        </div>
+        <div class="nav-overlay" id="navOverlay"></div>
         <a href="#" class="logo">المحراب</a>
         <button class="theme-toggle" aria-label="تبديل الوضع" onclick="toggleTheme()">
             <i class="fas fa-moon"></i>
         </button>
     </nav>
 
-    <!-- شاشة الترحيب -->
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop" title="الرجوع إلى الأعلى">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <!-- Welcome Overlay -->
     <div class="welcome-overlay" id="welcomeOverlay">
         <div class="welcome-message">
             <h2>مرحبًا بكم في المحراب</h2>
@@ -1004,8 +1107,17 @@
         </div>
     </div>
 
-    <!-- القسم الرئيسي -->
-    <section class="hero" data-aos="fade-up">
+    <!-- Fatwa Modal -->
+    <div class="modal-overlay" id="fatwaModal">
+        <div class="modal-content">
+            <h2>مكتبة الفتوى</h2>
+            <p>مكتبة الفتوى قيد الصيانة حاليًا، سنعود قريبًا بمحتوى متجدد!</p>
+            <button class="modal-close" onclick="closeFatwaModal()">إغلاق</button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero" data-aos="fade-up">
         <img id="theme-image" src="https://i.postimg.cc/GhG5z454/IMG-3129.png" alt="شعار المحراب" loading="lazy">
         <h1>منصة المحراب</h1>
         <p>نزرع الخير في الأرض لنحصد أضعافًا مضاعفة في السماء، معًا نبني مجتمعًا ملهمًا.</p>
@@ -1025,21 +1137,22 @@
         </div>
     </section>
 
-    <!-- قسم الفيديو -->
-    <section class="video-section" data-aos="fade-up" data-aos-delay="200">
+    <!-- Video Section -->
+    <section class="video-section" id="video-section" data-aos="fade-up" data-aos-delay="200">
         <div class="video-container">
             <iframe loading="lazy" src="https://www.youtube.com/embed/rIqjxPMMOGs?si=DfAsCpDlesD-wZEn" 
                     title="فيديو المحراب" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
     </section>
 
-    <!-- قسم البث المباشر -->
-    <section class="live-stream-section" data-aos="fade-up" data-aos-delay="300">
+    <!-- Live Stream Section -->
+    <section class="live-stream-section" id="live-stream-section" data-aos="fade-up" data-aos-delay="300">
         <h2>البث المباشر - قناة الاستقامة</h2>
         <div class="live-stream-container">
-            <video id="liveStreamVideo" class="video-js" controls autoplay muted>
+            <video id="liveStreamVideo" controls autoplay muted>
                 <source src="https://jmc-live.ercdn.net/alistiqama/alistiqama.m3u8" type="application/x-mpegURL">
             </video>
+            <div class="video-overlay"></div> <!-- طبقة التغطية لمنع التفاعل -->
             <div class="live-stream-loading" id="streamLoading">
                 <i class="fas fa-spinner"></i>
             </div>
@@ -1072,16 +1185,14 @@
         </div>
     </section>
 
-    <!-- قسم الاقتباسات -->
-    <section class="quotes-section" data-aos="fade-up" data-aos-delay="400">
+    <!-- Quotes Section -->
+    <section class="quotes-section" id="quotes-section" data-aos="fade-up" data-aos-delay="400">
         <h2>اقتباسات ملهمة</h2>
-        <div class="quotes-grid" id="quotesGrid">
-            <!-- سيتم ملء الاقتباسات ديناميكيًا بواسطة JavaScript -->
-        </div>
+        <div class="quotes-grid" id="quotesGrid"></div>
         <button id="showMoreQuotes" class="show-more-btn">عرض المزيد</button>
     </section>
 
-    <!-- الفوتر -->
+    <!-- Footer -->
     <footer>
         <div class="container">
             <a href="#">سياسة الخصوصية</a>
@@ -1091,19 +1202,19 @@
         </div>
     </footer>
 
-    <!-- الإشعارات المؤقتة -->
+    <!-- Notification -->
     <div class="notification" id="notification"></div>
 
-    <!-- مكتبة AOS -->
+    <!-- AOS Script -->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
-        // تهيئة AOS
+        // Initialize AOS
         AOS.init({
             duration: 800,
             once: true
         });
 
-        // تبديل الوضع الداكن
+        // Toggle Theme
         function toggleTheme() {
             const body = document.body;
             const themeImage = document.getElementById('theme-image');
@@ -1117,7 +1228,7 @@
             localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
         }
 
-        // تحميل الوضع المحفوظ
+        // Load Saved Theme
         function loadTheme() {
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'dark') {
@@ -1127,17 +1238,14 @@
             }
         }
 
-        // إغلاق شاشة الترحيب
+        // Close Welcome Overlay
         function closeWelcome() {
             const welcomeOverlay = document.getElementById('welcomeOverlay');
             welcomeOverlay.classList.add('hidden');
-            setTimeout(() => {
-                welcomeOverlay.style.display = 'none';
-            }, 500);
             localStorage.setItem('welcomeShown', 'true');
         }
 
-        // إدارة شاشة الترحيب
+        // Show Welcome Overlay
         function showWelcome() {
             const welcomeShown = localStorage.getItem('welcomeShown');
             const welcomeOverlay = document.getElementById('welcomeOverlay');
@@ -1148,7 +1256,7 @@
             }
         }
 
-        // عرض الإشعارات المؤقتة
+        // Show Notification
         function showNotification(message) {
             const notification = document.getElementById('notification');
             notification.textContent = message;
@@ -1158,7 +1266,70 @@
             }, 3000);
         }
 
-        // قائمة الاقتباسات الثابتة
+        // Burger Menu Toggle
+        const burgerMenu = document.getElementById('burgerMenu');
+        const navMenu = document.getElementById('navMenu');
+        const navOverlay = document.getElementById('navOverlay');
+
+        function toggleNav() {
+            burgerMenu.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            navOverlay.classList.toggle('active');
+        }
+
+        function closeNav() {
+            burgerMenu.classList.remove('active');
+            navMenu.classList.remove('active');
+            navOverlay.classList.remove('active');
+        }
+
+        burgerMenu.addEventListener('click', toggleNav);
+        navOverlay.addEventListener('click', closeNav);
+
+        // Fatwa Modal
+        function showFatwaModal() {
+            const modal = document.getElementById('fatwaModal');
+            modal.classList.add('active');
+        }
+
+        function closeFatwaModal() {
+            const modal = document.getElementById('fatwaModal');
+            modal.classList.remove('active');
+        }
+
+        // Smooth Scrolling
+        document.querySelectorAll('.nav-menu a:not([href="#"])').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Back to Top Button
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Quotes List
         const quotesList = [
             { text: "العلم نور يضيء دروب الحياة", source: "ابن خلدون" },
             { text: "الصبر مفتاح الفرج", source: "مثل عربي" },
@@ -1171,16 +1342,13 @@
         let displayedQuotes = 0;
         const quotesPerPage = 3;
 
-        // عرض الاقتباسات في الصفحة
         function displayQuotes() {
             const quotesGrid = document.getElementById('quotesGrid');
-            quotesGrid.innerHTML = ''; // إفراغ الشبكة
-
-            const quotesToShow = quotesList.slice(displayedQuotes, displayedQuotes + quotesPerPage);
-            quotesToShow.forEach((quote, index) => {
+            quotesGrid.innerHTML = '';
+            const quotesToShow = quotesList.slice(0, Math.min(quotesPerPage, quotesList.length));
+            quotesToShow.forEach((quote) => {
                 const card = document.createElement('div');
                 card.classList.add('quote-card');
-                card.style.animationDelay = `${(index + 1) * 0.1}s`;
                 card.innerHTML = `
                     <p>"${quote.text}"</p>
                     <span>- ${quote.source}</span>
@@ -1190,13 +1358,11 @@
                 `;
                 quotesGrid.appendChild(card);
             });
-
-            displayedQuotes += quotesToShow.length;
+            displayedQuotes = quotesToShow.length;
             document.getElementById('showMoreQuotes').style.display = displayedQuotes >= quotesList.length ? 'none' : 'block';
             AOS.refresh();
         }
 
-        // مشاركة الاقتباس
         function shareQuote(button) {
             const quoteCard = button.closest('.quote-card');
             const quoteText = quoteCard.querySelector('p').textContent;
@@ -1209,28 +1375,24 @@
                     text: shareText
                 }).then(() => {
                     showNotification('تمت المشاركة بنجاح!');
-                }).catch(err => {
-                    console.error('خطأ في المشاركة:', err);
+                }).catch(() => {
                     showNotification('حدث خطأ أثناء المشاركة');
                 });
             } else {
                 navigator.clipboard.writeText(shareText).then(() => {
                     showNotification('تم نسخ الاقتباس إلى الحافظة!');
-                }).catch(err => {
-                    console.error('خطأ في النسخ:', err);
+                }).catch(() => {
                     showNotification('حدث خطأ أثناء النسخ');
                 });
             }
         }
 
-        // عرض المزيد من الاقتباسات
         function showMoreQuotes() {
             const quotesGrid = document.getElementById('quotesGrid');
             const quotesToShow = quotesList.slice(displayedQuotes, displayedQuotes + quotesPerPage);
-            quotesToShow.forEach((quote, index) => {
+            quotesToShow.forEach((quote) => {
                 const card = document.createElement('div');
                 card.classList.add('quote-card');
-                card.style.animationDelay = `${(index + 1) * 0.1}s`;
                 card.innerHTML = `
                     <p>"${quote.text}"</p>
                     <span>- ${quote.source}</span>
@@ -1247,283 +1409,113 @@
 
         document.getElementById('showMoreQuotes').addEventListener('click', showMoreQuotes);
 
-        // إعداد البث المباشر
+        // Live Stream Setup
         let hls = null;
         let retryCount = 0;
         const maxRetries = 3;
-        let retryTimeout = null;
 
         function setupLiveStream() {
             const video = document.getElementById('liveStreamVideo');
             const fallback = document.getElementById('liveStreamFallback');
             const loading = document.getElementById('streamLoading');
             const progressBar = document.getElementById('progressBar');
-            const qualitySelect = document.getElementById('qualitySelect');
             const streamUrl = 'https://jmc-live.ercdn.net/alistiqama/alistiqama.m3u8';
 
             video.style.display = 'none';
             fallback.style.display = 'none';
             loading.style.display = 'block';
 
-            if (!video.canPlayType('video/mp2t') && !Hls.isSupported()) {
-                video.style.display = 'none';
-                fallback.style.display = 'block';
-                loading.style.display = 'none';
-                showNotification('المتصفح لا يدعم تنسيق الفيديو');
-                return;
-            }
-
             if (Hls.isSupported()) {
-                hls = new Hls({
-                    enableWorker: true,
-                    maxBufferLength: 30,
-                    maxMaxBufferLength: 60,
-                    liveSyncDurationCount: 3,
-                    liveMaxLatencyDurationCount: 10,
-                    lowLatencyMode: true,
-                    debug: false
-                });
+                hls = new Hls();
                 hls.loadSource(streamUrl);
                 hls.attachMedia(video);
                 hls.on(Hls.Events.MANIFEST_PARSED, () => {
                     retryCount = 0;
-                    clearTimeout(retryTimeout);
                     loading.style.display = 'none';
                     video.style.display = 'block';
-                    video.play().catch(error => {
-                        console.error('خطأ في تشغيل البث:', error);
+                    video.play().catch(() => {
                         handleStreamError();
                     });
-                    updateQualityOptions();
-                });
-                hls.on(Hls.Events.BUFFER_APPENDED, () => {
-                    const buffered = video.buffered.length ? video.buffered.end(0) : 0;
-                    const duration = video.duration || 100;
-                    progressBar.style.width = `${(buffered / duration) * 100}%`;
                 });
                 hls.on(Hls.Events.ERROR, (event, data) => {
-                    console.error('خطأ في البث:', data);
                     if (data.fatal) {
-                        switch (data.type) {
-                            case Hls.ErrorTypes.NETWORK_ERROR:
-                                console.error('خطأ شبكة، جارٍ المحاولة مجددًا...');
-                                handleStreamError();
-                                break;
-                            case Hls.ErrorTypes.MEDIA_ERROR:
-                                console.error('خطأ في الوسائط، جارٍ التعافي...');
-                                hls.recoverMediaError();
-                                setTimeout(() => {
-                                    if (!video.videoWidth) {
-                                        handleStreamError();
-                                    }
-                                }, 1000);
-                                break;
-                            default:
-                                handleStreamError();
-                                break;
-                        }
-                    } else {
-                        showNotification('مشكلة مؤقتة في البث، جارٍ المحاولة...');
+                        handleStreamError();
                     }
-                });
-                hls.on(Hls.Events.LEVEL_LOADING, () => {
-                    loading.style.display = 'block';
-                });
-                hls.on(Hls.Events.LEVEL_LOADED, () => {
-                    loading.style.display = 'none';
-                });
-                video.addEventListener('stalled', () => {
-                    console.warn('البث متوقف، جارٍ إعادة المحاولة...');
-                    showNotification('البث متوقف، جارٍ إعادة التحميل...');
-                    handleStreamError();
-                });
-                video.addEventListener('error', () => {
-                    console.error('خطأ في الفيديو');
-                    handleStreamError();
-                });
-                video.addEventListener('loadedmetadata', () => {
-                    if (!video.videoWidth || !video.videoHeight) {
-                        console.error('لا توجد بيانات فيديو');
-                        handleStreamError('فشل تحميل الفيديو، الصوت فقط متاح');
-                    }
-                });
-                video.addEventListener('play', () => {
-                    document.getElementById('playPauseBtn').querySelector('i').classList.replace('fa-play', 'fa-pause');
-                });
-                video.addEventListener('pause', () => {
-                    document.getElementById('playPauseBtn').querySelector('i').classList.replace('fa-pause', 'fa-play');
-                });
-            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = streamUrl;
-                video.play().catch(error => {
-                    console.error('خطأ في تشغيل البث:', error);
-                    handleStreamError();
-                });
-                video.addEventListener('stalled', () => {
-                    console.warn('البث متوقف');
-                    showNotification('البث متوقف، جارٍ إعادة التحميل...');
-                    handleStreamError();
-                });
-                video.addEventListener('error', () => {
-                    console.error('خطأ في الفيديو');
-                    handleStreamError();
-                });
-                video.addEventListener('loadedmetadata', () => {
-                    if (!video.videoWidth || !video.videoHeight) {
-                        console.error('لا توجد بيانات فيديو');
-                        handleStreamError('فشل تحميل الفيديو، الصوت فقط متاح');
-                    }
-                });
-                video.addEventListener('play', () => {
-                    document.getElementById('playPauseBtn').querySelector('i').classList.replace('fa-play', 'fa-pause');
-                });
-                video.addEventListener('pause', () => {
-                    document.getElementById('playPauseBtn').querySelector('i').classList.replace('fa-pause', 'fa-play');
                 });
             } else {
                 video.style.display = 'none';
                 fallback.style.display = 'block';
                 loading.style.display = 'none';
-                showNotification('المتصفح لا يدعم البث');
+                showNotification('المتصفح لا يدعم تنسيق الفيديو');
             }
+        }
 
-            function handleStreamError(customMessage) {
-                if (retryCount < maxRetries) {
-                    retryCount++;
-                    showNotification(`تعذر التحقق من البث، المحاولة ${retryCount} من ${maxRetries}...`);
-                    clearTimeout(retryTimeout);
-                    retryTimeout = setTimeout(() => {
-                        retryStream();
-                    }, 2000);
-                } else {
-                    video.style.display = 'none';
-                    fallback.style.display = 'block';
-                    loading.style.display = 'none';
-                    showNotification(customMessage || 'تعذر التحقق من البث بعد عدة محاولات');
-                    if (hls) {
-                        hls.destroy();
-                        hls = null;
-                    }
-                }
-            }
-
-            function updateQualityOptions() {
-                qualitySelect.innerHTML = '<option value="auto">تلقائي</option>';
-                if (hls && hls.levels) {
-                    hls.levels.forEach((level, index) => {
-                        const option = document.createElement('option');
-                        option.value = index;
-                        option.text = level.height ? `${level.height}p` : `مستوى ${index + 1}`;
-                        qualitySelect.appendChild(option);
-                    });
-                }
+        function handleStreamError() {
+            const video = document.getElementById('liveStreamVideo');
+            const fallback = document.getElementById('liveStreamFallback');
+            const loading = document.getElementById('streamLoading');
+            retryCount++;
+            if (retryCount >= maxRetries) {
+                video.style.display = 'none';
+                fallback.style.display = 'block';
+                loading.style.display = 'none';
+                showNotification('فشل تحميل البث المباشر بعد عدة محاولات');
+            } else {
+                setTimeout(() => {
+                    if (hls) hls.loadSource('https://jmc-live.ercdn.net/alistiqama/alistiqama.m3u8');
+                }, 2000);
             }
         }
 
         function retryStream() {
-            const video = document.getElementById('liveStreamVideo');
-            const fallback = document.getElementById('liveStreamFallback');
-            const loading = document.getElementById('streamLoading');
-            video.style.display = 'none';
-            fallback.style.display = 'none';
-            loading.style.display = 'block';
-            if (hls) {
-                hls.destroy();
-                hls = null;
-            }
+            retryCount = 0;
             setupLiveStream();
         }
 
-        function setupControls() {
-            const video = document.getElementById('liveStreamVideo');
-            const playPauseBtn = document.getElementById('playPauseBtn');
-            const muteBtn = document.getElementById('muteBtn');
-            const fullscreenBtn = document.getElementById('fullscreenBtn');
-            const refreshBtn = document.getElementById('refreshBtn');
-            const qualitySelect = document.getElementById('qualitySelect');
+        // Live Stream Controls
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const muteBtn = document.getElementById('muteBtn');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const video = document.getElementById('liveStreamVideo');
 
-            playPauseBtn.addEventListener('click', () => {
-                if (video.paused) {
-                    video.play().then(() => {
-                        playPauseBtn.querySelector('i').classList.replace('fa-play', 'fa-pause');
-                        showNotification('تم تشغيل البث');
-                    }).catch(error => {
-                        console.error('خطأ في تشغيل الفيديو:', error);
-                        showNotification('فشل تشغيل البث، حاول إعادة التحميل');
-                    });
-                } else {
-                    video.pause();
-                    playPauseBtn.querySelector('i').classList.replace('fa-pause', 'fa-play');
-                    showNotification('تم إيقاف البث مؤقتًا');
-                }
-            });
+        playPauseBtn.addEventListener('click', () => {
+            if (video.paused) {
+                video.play();
+                playPauseBtn.querySelector('i').classList.replace('fa-play', 'fa-pause');
+            } else {
+                video.pause();
+                playPauseBtn.querySelector('i').classList.replace('fa-pause', 'fa-play');
+            }
+        });
 
-            muteBtn.addEventListener('click', () => {
-                video.muted = !video.muted;
-                muteBtn.querySelector('i').classList.toggle('fa-volume-up', !video.muted);
-                muteBtn.querySelector('i').classList.toggle('fa-volume-mute', video.muted);
-                showNotification(video.muted ? 'تم إيقاف الصوت' : 'تم تشغيل الصوت');
-            });
+        muteBtn.addEventListener('click', () => {
+            video.muted = !video.muted;
+            muteBtn.querySelector('i').classList.toggle('fa-volume-up');
+            muteBtn.querySelector('i').classList.toggle('fa-volume-mute');
+        });
 
-            fullscreenBtn.addEventListener('click', () => {
-                const videoContainer = document.querySelector('.live-stream-container');
-                if (!document.fullscreenElement) {
-                    videoContainer.requestFullscreen().then(() => {
-                        fullscreenBtn.querySelector('i').classList.replace('fa-expand', 'fa-compress');
-                        showNotification('تم تفعيل الشاشة الكاملة');
-                    }).catch(err => {
-                        console.error('خطأ في تكبير الشاشة:', err);
-                        showNotification('فشل تفعيل الشاشة الكاملة');
-                    });
-                } else {
-                    document.exitFullscreen().then(() => {
-                        fullscreenBtn.querySelector('i').classList.replace('fa-compress', 'fa-expand');
-                        showNotification('تم إلغاء الشاشة الكاملة');
-                    }).catch(err => {
-                        console.error('خطأ في إلغاء الشاشة الكاملة:', err);
-                    });
-                }
-            });
+        fullscreenBtn.addEventListener('click', () => {
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+                fullscreenBtn.querySelector('i').classList.replace('fa-compress', 'fa-expand');
+            } else {
+                video.parentElement.requestFullscreen();
+                fullscreenBtn.querySelector('i').classList.replace('fa-expand', 'fa-compress');
+            }
+        });
 
-            document.addEventListener('fullscreenchange', () => {
-                if (!document.fullscreenElement) {
-                    fullscreenBtn.querySelector('i').classList.replace('fa-compress', 'fa-expand');
-                } else {
-                    fullscreenBtn.querySelector('i').classList.replace('fa-expand', 'fa-compress');
-                }
-            });
+        refreshBtn.addEventListener('click', () => {
+            retryStream();
+        });
 
-            refreshBtn.addEventListener('click', () => {
-                retryCount = 0;
-                retryStream();
-                showNotification('جارٍ إعادة تحميل البث...');
-            });
-
-            qualitySelect.addEventListener('change', (e) => {
-                const level = e.target.value;
-                if (hls) {
-                    hls.currentLevel = level === 'auto' ? -1 : parseInt(level);
-                    showNotification(`تم تغيير الجودة إلى ${e.target.options[e.target.selectedIndex].text}`);
-                } else {
-                    showNotification('تغيير الجودة غير متاح حاليًا');
-                }
-            });
-        }
-
-        // تهيئة الموقع
+        // On Page Load
         window.addEventListener('load', () => {
-            const loadingOverlay = document.getElementById('loadingOverlay');
-            setTimeout(() => {
-                loadingOverlay.classList.add('hidden');
-                setTimeout(() => {
-                    loadingOverlay.style.display = 'none';
-                }, 500);
-            }, 1500);
+            document.getElementById('loadingOverlay').classList.add('hidden');
             loadTheme();
             showWelcome();
-            setupLiveStream();
-            setupControls();
             displayQuotes();
+            setupLiveStream();
         });
     </script>
 </body>
